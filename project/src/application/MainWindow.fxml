@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+
+<AnchorPane prefHeight="672.0" prefWidth="934.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.65">
+   <children>
+      <HBox layoutX="37.0" layoutY="35.0" prefHeight="304.0" prefWidth="861.0" spacing="230.0" style="-fx-background-color: #e1e1e1;">
+         <children>
+            <ImageView fitHeight="318.0" fitWidth="347.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../img/imagehere.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="318.0" fitWidth="347.0" pickOnBounds="true" preserveRatio="true">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+               <image>
+                  <Image url="@../img/imagehere.png" />
+               </image>
+            </ImageView>
+         </children>
+      </HBox>
+      <HBox alignment="TOP_RIGHT" layoutX="37.0" layoutY="383.0" prefHeight="278.0" prefWidth="866.0" spacing="380.0">
+         <children>
+            <VBox prefHeight="278.0" prefWidth="180.0">
+               <children>
+                  <Button mnemonicParsing="false" prefHeight="38.0" prefWidth="180.0" text="Grey Scale" />
+               </children>
+            </VBox>
+            <BarChart prefHeight="264.0" prefWidth="316.0">
+              <xAxis>
+                <CategoryAxis side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis side="LEFT" />
+              </yAxis>
+            </BarChart>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>
