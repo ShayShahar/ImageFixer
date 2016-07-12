@@ -11,17 +11,16 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
-<AnchorPane prefHeight="672.0" prefWidth="934.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.65">
+<AnchorPane prefHeight="672.0" prefWidth="934.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainWindowController">
    <children>
       <HBox layoutX="37.0" layoutY="35.0" prefHeight="304.0" prefWidth="861.0" spacing="230.0" style="-fx-background-color: #e1e1e1;">
          <children>
-            <ImageView fitHeight="318.0" fitWidth="347.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="originalImage" fitHeight="320.0" fitWidth="320.0" onMouseClicked="#onLoadImageClick" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../img/imagehere.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="318.0" fitWidth="347.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="320.0" fitWidth="320.0" pickOnBounds="true" preserveRatio="true">
                <HBox.margin>
                   <Insets />
                </HBox.margin>
