@@ -1,6 +1,7 @@
 package application;
 
 import javafx.scene.image.Image;
+import javafx.scene.image.WritableImage;
 
 public interface ITransforms {
 	
@@ -9,5 +10,17 @@ public interface ITransforms {
 	 * @param p_image Image object instance
 	 * @return
 	 */
-	public Image greyScaleImage(Image p_image);
+	public WritableImage greyScaleImage(Image p_image);
+	
+	/**
+	 * Save the fixed image to any location.
+	 */
+	public void SaveImage();
+	
+	/**
+	 * Creates a histogram and displays it on the graph
+	 * @param p_image
+	 * @return
+	 */
+	public int[] createHistogram(Image p_image);
 }
