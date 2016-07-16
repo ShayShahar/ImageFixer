@@ -11,16 +11,16 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="672.0" prefWidth="934.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainWindowController">
+<AnchorPane prefHeight="819.0" prefWidth="1058.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainWindowController">
    <children>
-      <HBox layoutX="37.0" layoutY="35.0" prefHeight="304.0" prefWidth="866.0" spacing="230.0" style="-fx-background-color: #e1e1e1;">
+      <HBox layoutX="37.0" layoutY="35.0" prefHeight="309.0" prefWidth="988.0" spacing="50.0" style="-fx-background-color: #e1e1e1;">
          <children>
-            <ImageView fx:id="m_originalView" fitHeight="320.0" fitWidth="320.0" onMouseClicked="#onLoadImageClick" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="m_originalView" fitHeight="320.0" fitWidth="470.0" onMouseClicked="#onLoadImageClick" pickOnBounds="true">
                <image>
                   <Image url="@../img/imagehere.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="m_fixedView" fitHeight="320.0" fitWidth="320.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="m_fixedView" fitHeight="320.0" fitWidth="470.0" pickOnBounds="true">
                <HBox.margin>
                   <Insets />
                </HBox.margin>
@@ -30,14 +30,14 @@
             </ImageView>
          </children>
       </HBox>
-      <HBox alignment="TOP_RIGHT" layoutX="37.0" layoutY="383.0" prefHeight="278.0" prefWidth="866.0" spacing="380.0">
+      <HBox alignment="TOP_RIGHT" layoutX="37.0" layoutY="383.0" prefHeight="426.0" prefWidth="990.0" spacing="250.0">
          <children>
-            <VBox prefHeight="278.0" prefWidth="180.0">
+            <VBox prefHeight="426.0" prefWidth="190.0">
                <children>
                   <Button mnemonicParsing="false" onAction="#onGreyscaleButtonClick" prefHeight="38.0" prefWidth="180.0" text="Grey Scale" />
                </children>
             </VBox>
-            <BarChart prefHeight="264.0" prefWidth="316.0">
+            <BarChart fx:id="m_histogramChart" prefHeight="385.0" prefWidth="616.0">
               <xAxis>
                 <CategoryAxis side="BOTTOM" />
               </xAxis>
