@@ -1,7 +1,5 @@
 package application;
 
-import java.util.ArrayList;
-
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 
@@ -17,7 +15,7 @@ public interface ITransforms {
 	/**
 	 * Save the fixed image to any location.
 	 */
-	public void SaveImage();
+	public void saveImage();
 	
 	/**
 	 * Creates a histogram and displays it on the graph
@@ -25,7 +23,6 @@ public interface ITransforms {
 	 * @return
 	 */
 	public int[] createHistogram(Image p_image);
-	public WritableImage lowPassFilter(Image p_image, int kernel);
-	public WritableImage highPassFilter(Image p_image, int kernel);
+	public WritableImage enableMaskFilter(Image p_image, double[][] kernel);
 
 }
