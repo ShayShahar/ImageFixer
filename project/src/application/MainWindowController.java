@@ -6,11 +6,13 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javax.imageio.ImageIO;
-
 import org.controlsfx.control.RangeSlider;
-
+import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,6 +20,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -28,6 +34,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
+import javafx.util.Callback;
 
 public class MainWindowController implements ITransforms, Initializable{
 
@@ -35,15 +42,38 @@ public class MainWindowController implements ITransforms, Initializable{
 	private Image m_original = null;
 	private WritableImage m_fixed = null;
 	private RangeSlider m_slider;
+	private File file = new File("image.png");
 	@FXML private ImageView m_originalView;
 	@FXML private ImageView m_fixedView;
 	@FXML private Pane m_emptyPane;
+	@FXML private Label m_lowValue;
 	@FXML private BarChart<String, Integer> m_histogramChart;
-	File file = new File("image.png");
+	@FXML private ListView<Image> m_listView = new ListView<Image>();
 	@FXML private TextField m_mat00, m_mat01, m_mat02, m_mat10, m_mat11, m_mat12, m_mat20, m_mat21, m_mat22;
+	private ArrayList<Image> m_dataObservable = new ArrayList<Image>();
+ 
 	
+	public ObservableList<Image> getImages(ArrayList<Image> p_list){
+		
+		ObservableList<Image> data = FXCollections.observableArrayList();
+		
+		for (int i=0 ; i < p_list.size(); i++){
+			data.add(p_list.get(i));
+		}
+		
+		return data;
+	}
 	
-
+	public void updateListView(ArrayList<Image> p_list){
+		
+		Platform.runLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				m_listView.setItems(getImages(p_list));
+			}});
+	}
+	
 	public void onLoadImageClick(MouseEvent event){
 		
 		InputStream inputStream = null;
@@ -58,8 +88,9 @@ public class MainWindowController implements ITransforms, Initializable{
     		 try {
     			 inputStream = new FileInputStream(file.getPath());  // get the file path
     			 m_original = new Image(inputStream);
-    			// m_original = new Image(inputStream,320,320,false,false);  // resize the picture
     			 m_originalView.setImage(m_original);
+    			 m_dataObservable.add(m_original);
+    			 updateListView(m_dataObservable);
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
@@ -92,6 +123,8 @@ public class MainWindowController implements ITransforms, Initializable{
             }
          }
 		m_fixed = image;
+		m_dataObservable.add(m_fixed);
+		updateListView(m_dataObservable);
 		updateBarChartHistogram(createHistogram(m_fixed));
         return image;
 	}
@@ -180,6 +213,11 @@ public class MainWindowController implements ITransforms, Initializable{
 		}
 		 m_fixedView.setImage(enableMaskFilter(m_fixed, kernelMatrix));
 	}
+	
+	public void onChangeContrastButtonClick(ActionEvent event){
+			System.out.println(m_slider.getLowValue());
+			System.out.println(m_slider.getHighValue());
+	}
 
 	@Override
 	public WritableImage enableMaskFilter(Image p_image, double[][] kernel) {
@@ -218,13 +256,14 @@ public class MainWindowController implements ITransforms, Initializable{
 		return image;
 	}
 
-	@Override
+
 	public void initialize(URL location, ResourceBundle resources) {
 		m_slider = new RangeSlider(0,255,0,255);
 		m_slider.setShowTickMarks(true);
 		m_slider.setShowTickLabels(true);
 		m_slider.setBlockIncrement(10);
-		m_slider.setMinWidth(454);
+		m_slider.setMinWidth(555);
+		
 		m_emptyPane.getChildren().add(m_slider);
 		
 		m_mat00.setStyle("-fx-alignment: CENTER;");
@@ -236,5 +275,50 @@ public class MainWindowController implements ITransforms, Initializable{
 		m_mat20.setStyle("-fx-alignment: CENTER;");
 		m_mat21.setStyle("-fx-alignment: CENTER;");
 		m_mat22.setStyle("-fx-alignment: CENTER;");
+		
+		m_listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
+		m_listView.setCellFactory(new Callback<ListView<Image>, 
+	              ListCell<Image>>() {
+	                  @Override 
+	                  public ListCell<Image> call(ListView<Image> list) {
+	                	  
+	                      return new ImageSetter();
+	                  }
+	              }
+	     );
 	}
+	
+	  static class ImageSetter extends ListCell<Image> {
+		  
+		  
+          private final ImageView imageView = new ImageView();
+          {
+              imageView.setFitHeight(100);
+              imageView.setFitWidth(160);
+              imageView.setPreserveRatio(true);
+          }
+		  
+	        @Override
+	        public void updateItem(Image item, boolean empty) {
+	            super.updateItem(item, empty);
+	            
+	            if (empty){
+	            	
+	                setText(null);
+	                setGraphic(null);
+	            }
+	            else{
+	            	
+		            if (item != null) {
+		            	
+		                imageView.setImage(item);
+		                setGraphic(imageView);
+		                
+		            }
+	            }
+
+	        }
+	    }
+	    
 }
