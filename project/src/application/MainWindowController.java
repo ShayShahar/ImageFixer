@@ -101,6 +101,10 @@ public class MainWindowController implements ITransforms, Initializable{
 	 public void onGreyscaleButtonClick(ActionEvent p_event){
 		 m_fixedView.setImage(greyScaleImage(m_original));
 	 }
+	 
+	 public void onNegativeButtonClick(ActionEvent p_event){
+		 m_fixedView.setImage(negativeFilter(m_fixed)); 
+	 }
 	
 	@Override
 	public WritableImage greyScaleImage(Image p_image) {
@@ -169,7 +173,7 @@ public class MainWindowController implements ITransforms, Initializable{
 	            
 	            for(int j = 0; j < height; j++){
 	            	Color color = reader.getColor(i, j);
-	            	int a = (int)(color.getRed()*256);
+	            	int a = (int)(color.getRed()*255);
 	            	histogram[a]++;
 	            }
 	         }
@@ -320,5 +324,31 @@ public class MainWindowController implements ITransforms, Initializable{
 
 	        }
 	    }
+
+	@Override
+	public WritableImage negativeFilter(Image p_image) {
+		
+		int height = (int)p_image.getHeight();
+		int width = (int)p_image.getWidth();
+		
+		PixelReader reader = p_image.getPixelReader();
+		WritableImage image = new WritableImage(width,height);
+		PixelWriter writer = image.getPixelWriter();
+		
+		for (int i = 0; i< width; i++)
+			for (int j = 0; j< height; j++){
+				Color color = reader.getColor(i, j);
+				double value = (double)color.getRed();
+				writer.setColor(i, j, Color.color(1.0-value, 1.0-value, 1.0-value));
+				
+			}
+		
+		m_dataObservable.add(image);
+		updateListView(m_dataObservable);
+		m_fixed = image;
+		updateBarChartHistogram(createHistogram(m_fixed));
+		return image;
+		
+	}
 	    
 }

@@ -39,9 +39,10 @@
       <VBox layoutX="36.0" layoutY="362.0" prefHeight="320.0" prefWidth="177.0" spacing="15.0">
          <children>
             <Button mnemonicParsing="false" onAction="#onGreyscaleButtonClick" prefHeight="38.0" prefWidth="180.0" text="Grey Scale" />
-            <Button mnemonicParsing="false" onAction="#onSaveImageButtonClick" prefHeight="38.0" prefWidth="180.0" text="Save" />
+            <Button mnemonicParsing="false" onAction="#onNegativeButtonClick" prefHeight="38.0" prefWidth="180.0" text="Negative" />
             <Button mnemonicParsing="false" onAction="#onEnableMaskButtonClick" prefHeight="38.0" prefWidth="180.0" text="Enable Mask" />
             <Button mnemonicParsing="false" onAction="#onChangeContrastButtonClick" prefHeight="38.0" prefWidth="180.0" text="Change Contrast" />
+            <Button mnemonicParsing="false" onAction="#onSaveImageButtonClick" prefHeight="38.0" prefWidth="180.0" text="Save" />
          </children>
       </VBox>
       <VBox layoutX="234.0" layoutY="364.0" prefHeight="320.0" prefWidth="177.0" spacing="5.0">
