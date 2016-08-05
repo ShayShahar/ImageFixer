@@ -47,11 +47,14 @@ public class MainWindowController implements ITransforms, Initializable{
 	private File file = new File("image.png");
 	@FXML private ImageView m_originalView;
 	@FXML private ImageView m_fixedView;
+	@FXML private ImageView m_rightImage;
+	@FXML private ImageView m_leftImage;
 	@FXML private Pane m_emptyPane;
 	@FXML private Label m_lowValue;
 	@FXML private BarChart<String, Integer> m_histogramChart;
 	@FXML private ListView<Image> m_listView = new ListView<Image>();
 	@FXML private TextField m_mat00, m_mat01, m_mat02, m_mat10, m_mat11, m_mat12, m_mat20, m_mat21, m_mat22;
+	@FXML private TextField m_operationField;
 	private ArrayList<Image> m_dataObservable = new ArrayList<Image>();
 	private int m_lastMin;
 	private int m_lastMax;
@@ -304,6 +307,7 @@ public class MainWindowController implements ITransforms, Initializable{
 		m_mat20.setStyle("-fx-alignment: CENTER;");
 		m_mat21.setStyle("-fx-alignment: CENTER;");
 		m_mat22.setStyle("-fx-alignment: CENTER;");
+		m_operationField.setStyle("-fx-alignment: CENTER;");
 		
 		m_listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
@@ -445,5 +449,85 @@ public class MainWindowController implements ITransforms, Initializable{
 		updateBarChartHistogram(createHistogram(m_fixed));
 		return image;
 	}
+	
+	public void onLeftButtonClick(ActionEvent p_event){
+		m_leftImage.setImage(m_fixedView.getImage());
+	}
+	
+	public void onRightButtonClick(ActionEvent p_event){
+		m_rightImage.setImage(m_fixedView.getImage());
+	}
 	    
+	public void onPerformBinaryButtonClick(ActionEvent p_event){
+		
+		switch (m_operationField.getText()){
+			case "-":{
+				m_fixedView.setImage(imageSubstructor(m_leftImage.getImage(), m_rightImage.getImage()));
+				break;
+			}
+			
+			case "+":{
+				m_fixedView.setImage(imageAdder(m_leftImage.getImage(), m_rightImage.getImage()));
+				break;
+			}
+			
+			default: {
+				System.out.println("Error");
+				break;
+			}
+		}
+	}
+	
+	public WritableImage imageAdder(Image p_left, Image p_right){
+		
+		int height = (int)p_left.getHeight();
+		int width = (int)p_left.getWidth();
+		
+		PixelReader readerLeft = p_left.getPixelReader();
+		PixelReader readerRight = p_right.getPixelReader();
+		WritableImage image = new WritableImage(width,height);
+		PixelWriter writer = image.getPixelWriter();
+		
+		for (int i = 0; i< width; i++)
+			for (int j = 0; j< height; j++){
+				Color left = readerLeft.getColor(i, j);
+				Color right = readerRight.getColor(i, j);
+				double value = (left.getRed() + right.getRed())/2; 
+				writer.setColor(i, j, Color.color(value, value, value));
+			}
+	
+		m_dataObservable.add(image);
+		updateListView(m_dataObservable);
+		m_fixed = image;
+		updateBarChartHistogram(createHistogram(m_fixed));
+		return image;
+	}
+	
+	public WritableImage imageSubstructor(Image p_left, Image p_right){
+		
+		int height = (int)p_left.getHeight();
+		int width = (int)p_left.getWidth();
+		
+		PixelReader readerLeft = p_left.getPixelReader();
+		PixelReader readerRight = p_right.getPixelReader();
+		WritableImage image = new WritableImage(width,height);
+		PixelWriter writer = image.getPixelWriter();
+		
+		for (int i = 0; i< width; i++)
+			for (int j = 0; j< height; j++){
+				Color left = readerLeft.getColor(i, j);
+				Color right = readerRight.getColor(i, j);
+				double value = (left.getRed() - right.getRed());
+				if (value < 0){
+					value = 0;
+				}
+				writer.setColor(i, j, Color.color(value, value, value));
+			}
+	
+		m_dataObservable.add(image);
+		updateListView(m_dataObservable);
+		m_fixed = image;
+		updateBarChartHistogram(createHistogram(m_fixed));
+		return image;
+	}
 }

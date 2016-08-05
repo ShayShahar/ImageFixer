@@ -26,6 +26,7 @@ public interface ITransforms {
 	public WritableImage enableMaskFilter(Image p_image, double[][] kernel);
 	public WritableImage negativeFilter(Image p_image);
 	public WritableImage changeContrast(Image p_image);
+	public WritableImage imageAdder(Image p_left, Image p_right);
+	public WritableImage imageSubstructor(Image p_left, Image p_right);
 	
-
 }
