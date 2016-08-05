@@ -25,5 +25,7 @@ public interface ITransforms {
 	public int[] createHistogram(Image p_image);
 	public WritableImage enableMaskFilter(Image p_image, double[][] kernel);
 	public WritableImage negativeFilter(Image p_image);
+	public WritableImage changeContrast(Image p_image);
+	
 
 }

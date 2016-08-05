@@ -11,6 +11,8 @@ import java.util.ResourceBundle;
 import javax.imageio.ImageIO;
 import org.controlsfx.control.RangeSlider;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
@@ -51,6 +53,8 @@ public class MainWindowController implements ITransforms, Initializable{
 	@FXML private ListView<Image> m_listView = new ListView<Image>();
 	@FXML private TextField m_mat00, m_mat01, m_mat02, m_mat10, m_mat11, m_mat12, m_mat20, m_mat21, m_mat22;
 	private ArrayList<Image> m_dataObservable = new ArrayList<Image>();
+	private int m_lastMin;
+	private int m_lastMax;
  
 	
 	public ObservableList<Image> getImages(ArrayList<Image> p_list){
@@ -66,12 +70,11 @@ public class MainWindowController implements ITransforms, Initializable{
 	
 	public void updateListView(ArrayList<Image> p_list){
 		
-		Platform.runLater(new Runnable() {
+		try{
+			m_listView.setItems(getImages(p_list));
+		}catch(Exception e){
 			
-			@Override
-			public void run() {
-				m_listView.setItems(getImages(p_list));
-			}});
+		}
 	}
 	
 	public void onLoadImageClick(MouseEvent event){
@@ -89,8 +92,6 @@ public class MainWindowController implements ITransforms, Initializable{
     			 inputStream = new FileInputStream(file.getPath());  // get the file path
     			 m_original = new Image(inputStream);
     			 m_originalView.setImage(m_original);
-    			 m_dataObservable.add(m_original);
-    			 updateListView(m_dataObservable);
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
@@ -142,13 +143,11 @@ public class MainWindowController implements ITransforms, Initializable{
         try {
 			ImageIO.write(SwingFXUtils.fromFXImage(m_fixed, null), "png", file);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 	}
-	
-	
+
 	 private  void configureFileChooser( final FileChooser p_chooser){   
 		  
 		 p_chooser.setTitle("View Pictures");
@@ -194,9 +193,32 @@ public class MainWindowController implements ITransforms, Initializable{
 											
 
 		m_histogramChart.getData().clear();
-		m_histogramChart.getData().add(s1);			
+		m_histogramChart.getData().add(s1);	
+		
+		updateSlider(p_histogram);
 	}
-
+	
+	private void updateSlider(int[] p_histogram){
+		
+		//update lower value
+		for (int i = 0 ; i < p_histogram.length; i++){
+			if (p_histogram[i] != 0){
+				m_slider.setLowValue(i);
+				m_lastMin = i;
+				break;
+			}
+		}
+		
+		//update higher value
+		for (int i = p_histogram.length - 1 ; i >= 0 ; i--){
+			if (p_histogram[i] != 0){
+				m_slider.setHighValue(i);
+				m_lastMax = i;
+				break;
+			}
+		}
+		
+	}
 	
 	public void onEnableMaskButtonClick(ActionEvent event){
 		double[][] kernelMatrix = new double[3][3];
@@ -216,11 +238,11 @@ public class MainWindowController implements ITransforms, Initializable{
 			return;
 		}
 		 m_fixedView.setImage(enableMaskFilter(m_fixed, kernelMatrix));
+		 
 	}
 	
 	public void onChangeContrastButtonClick(ActionEvent event){
-			System.out.println(m_slider.getLowValue());
-			System.out.println(m_slider.getHighValue());
+		 m_fixedView.setImage(changeContrast(m_fixed)); 
 	}
 
 	@Override
@@ -257,6 +279,9 @@ public class MainWindowController implements ITransforms, Initializable{
 			}
 		}
 		m_fixed = image;
+		m_dataObservable.add(m_fixed);
+		updateListView(m_dataObservable);
+		updateBarChartHistogram(createHistogram(m_fixed));
 		return image;
 	}
 
@@ -291,6 +316,35 @@ public class MainWindowController implements ITransforms, Initializable{
 	                  }
 	              }
 	     );
+		
+		m_listView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Image>(){
+
+			@Override
+			public void changed(ObservableValue<? extends Image> observable, Image oldValue, Image newValue) {
+				
+				try{
+					
+					Platform.runLater(new Runnable() {
+					    @Override public void run() {
+					    	try{
+								m_fixed = new WritableImage(newValue.getPixelReader(),(int)newValue.getWidth(),(int)newValue.getHeight());
+								m_fixedView.setImage(m_fixed);
+								
+								m_listView.getSelectionModel().clearSelection();
+					    	}catch(Exception e){
+					    		
+					    	}
+					    	
+							
+					    }});
+					
+				}catch(Exception e){
+					
+				}
+				
+
+			}
+		});
 	}
 	
 	  static class ImageSetter extends ListCell<Image> {
@@ -349,6 +403,47 @@ public class MainWindowController implements ITransforms, Initializable{
 		updateBarChartHistogram(createHistogram(m_fixed));
 		return image;
 		
+	}
+
+	@Override
+	public WritableImage changeContrast(Image p_image) {
+		
+		int height = (int)p_image.getHeight();
+		int width = (int)p_image.getWidth();
+		
+		PixelReader reader = p_image.getPixelReader();
+		WritableImage image = new WritableImage(width,height);
+		PixelWriter writer = image.getPixelWriter();
+		
+		
+		if (m_lastMin > m_slider.getLowValue() || m_lastMax < m_slider.getHighValue() )
+		{
+			
+			for (int i = 0; i< width; i++)
+				for (int j = 0; j< height; j++){
+					Color color = reader.getColor(i, j);
+					double value = (((int)(color.getRed()*255) - m_slider.getLowValue())*255)/(m_slider.getHighValue() - m_slider.getLowValue())/255;
+					writer.setColor(i, j, Color.color(value, value, value));
+					
+				}
+			
+		}
+		else{
+			for (int i = 0; i< width; i++)
+				for (int j = 0; j< height; j++){
+					Color color = reader.getColor(i, j);
+					double value = (m_slider.getLowValue() + ((color.getRed()))*(m_slider.getHighValue() - m_slider.getLowValue()))/256; 
+					writer.setColor(i, j, Color.color(value, value, value));
+					
+				}
+		}
+
+		
+		m_dataObservable.add(image);
+		updateListView(m_dataObservable);
+		m_fixed = image;
+		updateBarChartHistogram(createHistogram(m_fixed));
+		return image;
 	}
 	    
 }
