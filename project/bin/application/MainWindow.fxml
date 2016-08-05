@@ -36,16 +36,17 @@
          </children>
       </HBox>
       <ListView fx:id="m_listView" layoutX="1062.0" layoutY="16.0" prefHeight="739.0" prefWidth="213.0" />
-      <VBox layoutX="36.0" layoutY="362.0" prefHeight="320.0" prefWidth="177.0" spacing="15.0">
+      <VBox layoutX="36.0" layoutY="362.0" prefHeight="280.0" prefWidth="177.0" spacing="15.0">
          <children>
             <Button mnemonicParsing="false" onAction="#onGreyscaleButtonClick" prefHeight="38.0" prefWidth="180.0" text="Grey Scale" />
             <Button mnemonicParsing="false" onAction="#onNegativeButtonClick" prefHeight="38.0" prefWidth="180.0" text="Negative" />
             <Button mnemonicParsing="false" onAction="#onEnableMaskButtonClick" prefHeight="38.0" prefWidth="180.0" text="Enable Mask" />
             <Button mnemonicParsing="false" onAction="#onChangeContrastButtonClick" prefHeight="38.0" prefWidth="180.0" text="Change Contrast" />
             <Button mnemonicParsing="false" onAction="#onSaveImageButtonClick" prefHeight="38.0" prefWidth="180.0" text="Save" />
+            <Button mnemonicParsing="false" onAction="#onChangeContrastButtonClick" prefHeight="38.0" prefWidth="180.0" text="Perform Binary" />
          </children>
       </VBox>
-      <VBox layoutX="234.0" layoutY="364.0" prefHeight="320.0" prefWidth="177.0" spacing="5.0">
+      <VBox layoutX="234.0" layoutY="364.0" prefHeight="199.0" prefWidth="177.0" spacing="5.0">
          <children>
             <Label text="Mask Kernel" />
             <GridPane gridLinesVisible="true" prefHeight="159.0" prefWidth="193.0" style="-fx-background-color: #ffffff;">
@@ -85,5 +86,18 @@
       <Pane fx:id="m_emptyPane" layoutX="483.0" layoutY="738.0" prefHeight="23.0" prefWidth="556.0" />
       <Separator layoutX="1046.0" layoutY="47.0" orientation="VERTICAL" prefHeight="677.0" prefWidth="14.0" />
       <Separator layoutX="41.0" layoutY="344.0" prefHeight="0.0" prefWidth="982.0" />
+      <HBox alignment="CENTER" layoutX="14.0" layoutY="650.0" prefHeight="100.0" prefWidth="411.0" spacing="20.0" style="-fx-background-color: #e1e1e1;">
+         <children>
+            <ImageView fx:id="m_fixedView1" fitHeight="103.0" fitWidth="159.0" pickOnBounds="true" />
+            <VBox prefHeight="105.0" prefWidth="35.0" spacing="15.0">
+               <children>
+                  <Button mnemonicParsing="false" text="&lt;--" />
+                  <TextField prefHeight="25.0" prefWidth="0.0" />
+                  <Button mnemonicParsing="false" text="--&gt;" />
+               </children>
+            </VBox>
+            <ImageView fx:id="m_fixedView11" fitHeight="103.0" fitWidth="159.0" pickOnBounds="true" />
+         </children>
+      </HBox>
    </children>
 </AnchorPane>
