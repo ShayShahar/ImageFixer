@@ -22,6 +22,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -33,10 +36,12 @@ import javafx.scene.image.PixelReader;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.util.Callback;
+import javafx.util.Pair;
 
 public class MainWindowController implements ITransforms, Initializable{
 
@@ -54,10 +59,16 @@ public class MainWindowController implements ITransforms, Initializable{
 	@FXML private BarChart<String, Integer> m_histogramChart;
 	@FXML private ListView<Image> m_listView = new ListView<Image>();
 	@FXML private TextField m_mat00, m_mat01, m_mat02, m_mat10, m_mat11, m_mat12, m_mat20, m_mat21, m_mat22;
+	@FXML private TextField m_mat500, m_mat501, m_mat502, m_mat503, m_mat504, m_mat510, m_mat511, m_mat512, m_mat513, m_mat514,
+	m_mat520, m_mat521, m_mat522, m_mat523, m_mat524, m_mat530, m_mat531, m_mat532, m_mat533, m_mat534, m_mat540, m_mat541, m_mat542, m_mat543, m_mat544;
 	@FXML private TextField m_operationField;
+	@FXML private GridPane m_threeGrid;
+	@FXML private GridPane m_fiveGrid;
+	@FXML private Button m_switchButton, m_negButton, m_cngButton, m_saveButton, m_binButton, m_maskButton;
 	private ArrayList<Image> m_dataObservable = new ArrayList<Image>();
 	private int m_lastMin;
 	private int m_lastMax;
+	private int m_kernelSize;
  
 	
 	public ObservableList<Image> getImages(ArrayList<Image> p_list){
@@ -79,7 +90,7 @@ public class MainWindowController implements ITransforms, Initializable{
 			
 		}
 	}
-	
+
 	public void onLoadImageClick(MouseEvent event){
 		
 		InputStream inputStream = null;
@@ -95,6 +106,13 @@ public class MainWindowController implements ITransforms, Initializable{
     			 inputStream = new FileInputStream(file.getPath());  // get the file path
     			 m_original = new Image(inputStream);
     			 m_originalView.setImage(m_original);
+    			 m_fixedView.setImage(greyScaleImage(m_original));
+    			 m_negButton.setDisable(false);
+    			 m_cngButton.setDisable(false);
+    			 m_saveButton.setDisable(false);
+    			 m_binButton.setDisable(false);
+    			 m_maskButton.setDisable(false);
+    				
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
@@ -224,24 +242,74 @@ public class MainWindowController implements ITransforms, Initializable{
 	}
 	
 	public void onEnableMaskButtonClick(ActionEvent event){
-		double[][] kernelMatrix = new double[3][3];
-		try{
-			kernelMatrix[0][0] = Double.parseDouble(m_mat00.getText());	
-			kernelMatrix[0][1] = Double.parseDouble(m_mat01.getText());
-			kernelMatrix[0][2] = Double.parseDouble(m_mat02.getText());
-			kernelMatrix[1][0] = Double.parseDouble(m_mat10.getText());
-			kernelMatrix[1][1] = Double.parseDouble(m_mat11.getText());
-			kernelMatrix[1][2] = Double.parseDouble(m_mat12.getText());
-			kernelMatrix[2][0] = Double.parseDouble(m_mat20.getText());
-			kernelMatrix[2][1] = Double.parseDouble(m_mat21.getText());
-			kernelMatrix[2][2] = Double.parseDouble(m_mat22.getText());
+		double[][] kernelMatrix;
+		
+		if (m_kernelSize == 3){
+			kernelMatrix  = new double[3][3];
 			
-		}catch(Exception e){
-			System.out.println("Missing fields");
-			return;
+			try{
+				kernelMatrix[0][0] = Double.parseDouble(m_mat00.getText());	
+				kernelMatrix[0][1] = Double.parseDouble(m_mat01.getText());
+				kernelMatrix[0][2] = Double.parseDouble(m_mat02.getText());
+				
+				kernelMatrix[1][0] = Double.parseDouble(m_mat10.getText());
+				kernelMatrix[1][1] = Double.parseDouble(m_mat11.getText());
+				kernelMatrix[1][2] = Double.parseDouble(m_mat12.getText());
+				
+				kernelMatrix[2][0] = Double.parseDouble(m_mat20.getText());
+				kernelMatrix[2][1] = Double.parseDouble(m_mat21.getText());
+				kernelMatrix[2][2] = Double.parseDouble(m_mat22.getText());
+				
+				m_fixedView.setImage(enableMaskFilter(m_fixed, kernelMatrix));
+				
+			}catch(Exception e){
+				displayErrorMessage("Invalid Input","Some fields are missing or not include a number in a floating point format");
+				return;
+			}
 		}
-		 m_fixedView.setImage(enableMaskFilter(m_fixed, kernelMatrix));
-		 
+		
+		else{
+			kernelMatrix  = new double[5][5];
+
+			try{
+				kernelMatrix[0][0] = Double.parseDouble(m_mat500.getText());	
+				kernelMatrix[0][1] = Double.parseDouble(m_mat501.getText());
+				kernelMatrix[0][2] = Double.parseDouble(m_mat502.getText());
+				kernelMatrix[0][3] = Double.parseDouble(m_mat503.getText());
+				kernelMatrix[0][4] = Double.parseDouble(m_mat504.getText());
+				
+				kernelMatrix[1][0] = Double.parseDouble(m_mat510.getText());
+				kernelMatrix[1][1] = Double.parseDouble(m_mat511.getText());
+				kernelMatrix[1][2] = Double.parseDouble(m_mat512.getText());
+				kernelMatrix[1][3] = Double.parseDouble(m_mat513.getText());
+				kernelMatrix[1][4] = Double.parseDouble(m_mat514.getText());
+				
+				kernelMatrix[2][0] = Double.parseDouble(m_mat520.getText());
+				kernelMatrix[2][1] = Double.parseDouble(m_mat521.getText());
+				kernelMatrix[2][2] = Double.parseDouble(m_mat522.getText());
+				kernelMatrix[2][3] = Double.parseDouble(m_mat523.getText());
+				kernelMatrix[2][4] = Double.parseDouble(m_mat524.getText());
+				
+				kernelMatrix[3][0] = Double.parseDouble(m_mat530.getText());
+				kernelMatrix[3][1] = Double.parseDouble(m_mat531.getText());
+				kernelMatrix[3][2] = Double.parseDouble(m_mat532.getText());
+				kernelMatrix[3][3] = Double.parseDouble(m_mat533.getText());
+				kernelMatrix[3][4] = Double.parseDouble(m_mat534.getText());
+				
+				kernelMatrix[4][0] = Double.parseDouble(m_mat540.getText());
+				kernelMatrix[4][1] = Double.parseDouble(m_mat541.getText());
+				kernelMatrix[4][2] = Double.parseDouble(m_mat542.getText());
+				kernelMatrix[4][3] = Double.parseDouble(m_mat543.getText());
+				kernelMatrix[4][4] = Double.parseDouble(m_mat544.getText());
+				
+				m_fixedView.setImage(enableMaskFilter(m_fixed, kernelMatrix));
+				
+			}catch(Exception e){
+				displayErrorMessage("Invalid Input","Some fields are missing or not include a number in a floating point format");
+				return;
+			}
+			 
+		}
 	}
 	
 	public void onChangeContrastButtonClick(ActionEvent event){
@@ -258,29 +326,60 @@ public class MainWindowController implements ITransforms, Initializable{
 		WritableImage image = new WritableImage(width,height);
 		PixelWriter writer = image.getPixelWriter();
 		
-		for (int i = 0; i< width; i++){
-			for (int j = 0; j< height; j++){
-				if (i == 0 || j == 0 || i == width - 1 || j == height - 1){
-					writer.setColor(i, j, Color.BLACK);
-				}
-				else{
-					double sum = 0;
-					for (int k = 0, z= i-1; k < 3; k++, z++){
-						for  (int t = 0, w= j-1; t < 3; t++, w++){
-							Color color = reader.getColor(z, w);
-							sum += (double)(color.getRed()*kernel[k][t]);	
-						}
-					}
-					if (sum < 0)
+		if (m_kernelSize == 3){
+			for (int i = 0; i< width; i++){
+				for (int j = 0; j< height; j++){
+					if (i == 0 || j == 0 || i == width - 1 || j == height - 1){
 						writer.setColor(i, j, Color.BLACK);
-					else if (sum > 1)
-						writer.setColor(i, j, Color.WHITE);	
+					}
 					else{
-						writer.setColor(i, j, Color.color(sum, sum, sum));
+						double sum = 0;
+						for (int k = 0, z= i-1; k < m_kernelSize; k++, z++){
+							for  (int t = 0, w= j-1; t < m_kernelSize; t++, w++){
+								Color color = reader.getColor(z, w);
+								sum += (double)(color.getRed()*kernel[k][t]);	
+							}
+						}
+						if (sum < 0)
+							writer.setColor(i, j, Color.BLACK);
+						else if (sum > 1)
+							writer.setColor(i, j, Color.WHITE);	
+						else{
+							writer.setColor(i, j, Color.color(sum, sum, sum));
+						}
 					}
 				}
 			}
+				
 		}
+		else{
+			
+			for (int i = 0; i< width; i++){
+				for (int j = 0; j< height; j++){
+					if (i == 0 || i == 1 || j == 1 || j == 0 || i == width - 2  || i == width - 1 || j == height - 2 || j == height - 1){
+						writer.setColor(i, j, Color.BLACK);
+					}
+					else{
+						double sum = 0;
+						for (int k = 0, z= i-2; k < m_kernelSize; k++, z++){
+							for  (int t = 0, w= j-2; t < m_kernelSize; t++, w++){
+								Color color = reader.getColor(z, w);
+								sum += (double)(color.getRed()*kernel[k][t]);	
+							}
+						}
+						if (sum < 0)
+							writer.setColor(i, j, Color.BLACK);
+						else if (sum > 1)
+							writer.setColor(i, j, Color.WHITE);	
+						else{
+							writer.setColor(i, j, Color.color(sum, sum, sum));
+						}
+					}
+				}
+			}
+			
+		}
+
 		m_fixed = image;
 		m_dataObservable.add(m_fixed);
 		updateListView(m_dataObservable);
@@ -297,6 +396,13 @@ public class MainWindowController implements ITransforms, Initializable{
 		m_slider.setMinWidth(555);
 		
 		m_emptyPane.getChildren().add(m_slider);
+		m_kernelSize = 3;
+		
+		m_negButton.setDisable(true);
+		m_cngButton.setDisable(true);
+		m_saveButton.setDisable(true);
+		m_binButton.setDisable(true);
+		m_maskButton.setDisable(true);
 		
 		m_mat00.setStyle("-fx-alignment: CENTER;");
 		m_mat01.setStyle("-fx-alignment: CENTER;");
@@ -307,15 +413,39 @@ public class MainWindowController implements ITransforms, Initializable{
 		m_mat20.setStyle("-fx-alignment: CENTER;");
 		m_mat21.setStyle("-fx-alignment: CENTER;");
 		m_mat22.setStyle("-fx-alignment: CENTER;");
-		m_operationField.setStyle("-fx-alignment: CENTER;");
+		m_mat500.setStyle("-fx-alignment: CENTER;");
+		m_mat501.setStyle("-fx-alignment: CENTER;");
+		m_mat502.setStyle("-fx-alignment: CENTER;");
+		m_mat503.setStyle("-fx-alignment: CENTER;");
+		m_mat504.setStyle("-fx-alignment: CENTER;");
+		m_mat510.setStyle("-fx-alignment: CENTER;");
+		m_mat511.setStyle("-fx-alignment: CENTER;");
+		m_mat512.setStyle("-fx-alignment: CENTER;");
+		m_mat513.setStyle("-fx-alignment: CENTER;");
+		m_mat514.setStyle("-fx-alignment: CENTER;");
+		m_mat520.setStyle("-fx-alignment: CENTER;");
+		m_mat521.setStyle("-fx-alignment: CENTER;");
+		m_mat522.setStyle("-fx-alignment: CENTER;");
+		m_mat523.setStyle("-fx-alignment: CENTER;");
+		m_mat524.setStyle("-fx-alignment: CENTER;");
+		m_mat530.setStyle("-fx-alignment: CENTER;");
+		m_mat531.setStyle("-fx-alignment: CENTER;");
+		m_mat532.setStyle("-fx-alignment: CENTER;");
+		m_mat533.setStyle("-fx-alignment: CENTER;");
+		m_mat534.setStyle("-fx-alignment: CENTER;");
+		m_mat540.setStyle("-fx-alignment: CENTER;");
+		m_mat541.setStyle("-fx-alignment: CENTER;");	
+		m_mat542.setStyle("-fx-alignment: CENTER;");	
+		m_mat543.setStyle("-fx-alignment: CENTER;");
+		m_mat544.setStyle("-fx-alignment: CENTER;");
 		
+		m_operationField.setStyle("-fx-alignment: CENTER;");
 		m_listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
 		m_listView.setCellFactory(new Callback<ListView<Image>, 
 	              ListCell<Image>>() {
 	                  @Override 
 	                  public ListCell<Image> call(ListView<Image> list) {
-	                	  
 	                      return new ImageSetter();
 	                  }
 	              }
@@ -338,15 +468,11 @@ public class MainWindowController implements ITransforms, Initializable{
 					    	}catch(Exception e){
 					    		
 					    	}
-					    	
-							
 					    }});
 					
 				}catch(Exception e){
 					
 				}
-				
-
 			}
 		});
 	}
@@ -460,7 +586,13 @@ public class MainWindowController implements ITransforms, Initializable{
 	    
 	public void onPerformBinaryButtonClick(ActionEvent p_event){
 		
-		switch (m_operationField.getText()){
+		if (m_leftImage.getImage() == null || m_rightImage.getImage() == null){
+			displayErrorMessage("Missing Images","Please load images to the stack before try to perform a binary operation.");
+		}
+		
+		else{
+			
+			switch (m_operationField.getText()){
 			case "-":{
 				m_fixedView.setImage(imageSubstructor(m_leftImage.getImage(), m_rightImage.getImage()));
 				break;
@@ -472,10 +604,11 @@ public class MainWindowController implements ITransforms, Initializable{
 			}
 			
 			default: {
-				System.out.println("Error");
+				displayErrorMessage("Unsupported Operation","The operation that you tried to perform is not supported by this application.");
 				break;
 			}
 		}
+	  }
 	}
 	
 	public WritableImage imageAdder(Image p_left, Image p_right){
@@ -529,5 +662,38 @@ public class MainWindowController implements ITransforms, Initializable{
 		m_fixed = image;
 		updateBarChartHistogram(createHistogram(m_fixed));
 		return image;
+	}
+	
+	private void displayErrorMessage(String title, String information) {
+		Platform.runLater(new Runnable() {
+
+			@Override
+			public void run() {
+				URL url = MainWindowController.class.getResource("/img/error.png");
+				Dialog<Pair<String, String>> dialog = new Dialog<>();
+				dialog.setTitle("Error Message");
+				dialog.setHeaderText(title);
+				dialog.setContentText(information);
+				dialog.setGraphic(new ImageView(url.toString()));
+				dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK);
+				dialog.showAndWait();
+			}
+		});			
+	}
+	
+	public void onSwitchKernelButtonClick(ActionEvent p_event){
+		
+		if (m_threeGrid.isVisible()){
+			m_threeGrid.setVisible(false);
+			m_fiveGrid.setVisible(true);
+			m_kernelSize = 5;
+			m_switchButton.setText("Switch to 3x3 kernel");
+		}
+		else{
+			m_threeGrid.setVisible(true);
+			m_fiveGrid.setVisible(false);
+			m_kernelSize = 3;
+			m_switchButton.setText("Switch to 5x5 kernel");
+		}
 	}
 }

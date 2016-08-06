@@ -5,9 +5,10 @@
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -36,44 +37,6 @@
          </children>
       </HBox>
       <ListView fx:id="m_listView" layoutX="1062.0" layoutY="16.0" prefHeight="739.0" prefWidth="213.0" />
-      <VBox layoutX="36.0" layoutY="362.0" prefHeight="280.0" prefWidth="177.0" spacing="15.0">
-         <children>
-            <Button mnemonicParsing="false" onAction="#onGreyscaleButtonClick" prefHeight="38.0" prefWidth="180.0" text="Grey Scale" />
-            <Button mnemonicParsing="false" onAction="#onNegativeButtonClick" prefHeight="38.0" prefWidth="180.0" text="Negative" />
-            <Button mnemonicParsing="false" onAction="#onEnableMaskButtonClick" prefHeight="38.0" prefWidth="180.0" text="Enable Mask" />
-            <Button mnemonicParsing="false" onAction="#onChangeContrastButtonClick" prefHeight="38.0" prefWidth="180.0" text="Change Contrast" />
-            <Button mnemonicParsing="false" onAction="#onSaveImageButtonClick" prefHeight="38.0" prefWidth="180.0" text="Save" />
-            <Button mnemonicParsing="false" onAction="#onPerformBinaryButtonClick" prefHeight="38.0" prefWidth="180.0" text="Perform Binary" />
-         </children>
-      </VBox>
-      <VBox layoutX="234.0" layoutY="364.0" prefHeight="199.0" prefWidth="177.0" spacing="5.0">
-         <children>
-            <Label text="Mask Kernel" />
-            <GridPane gridLinesVisible="true" prefHeight="159.0" prefWidth="193.0" style="-fx-background-color: #ffffff;">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <TextField fx:id="m_mat22" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                  <TextField fx:id="m_mat11" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <TextField fx:id="m_mat20" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.rowIndex="2" />
-                  <TextField fx:id="m_mat02" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="2" />
-                  <TextField fx:id="m_mat00" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff; -fx-border-color: #ffffff;" />
-                  <TextField fx:id="m_mat10" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.rowIndex="1" />
-                  <TextField fx:id="m_mat01" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="1" />
-                  <TextField fx:id="m_mat21" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <TextField fx:id="m_mat12" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-               </children>
-            </GridPane>
-         </children>
-      </VBox>
       <BarChart fx:id="m_histogramChart" animated="false" layoutX="441.0" layoutY="345.0" legendVisible="false" prefHeight="400.0" prefWidth="607.0">
         <xAxis>
           <CategoryAxis side="BOTTOM" />
@@ -86,18 +49,126 @@
       <Pane fx:id="m_emptyPane" layoutX="483.0" layoutY="738.0" prefHeight="23.0" prefWidth="556.0" />
       <Separator layoutX="1046.0" layoutY="47.0" orientation="VERTICAL" prefHeight="677.0" prefWidth="14.0" />
       <Separator layoutX="41.0" layoutY="344.0" prefHeight="0.0" prefWidth="982.0" />
-      <HBox alignment="CENTER" layoutX="14.0" layoutY="650.0" prefHeight="100.0" prefWidth="411.0" spacing="20.0" style="-fx-background-color: #e1e1e1;">
-         <children>
-            <ImageView fx:id="m_leftImage" fitHeight="103.0" fitWidth="159.0" pickOnBounds="true" />
-            <VBox prefHeight="105.0" prefWidth="35.0" spacing="15.0">
-               <children>
-                  <Button mnemonicParsing="false" onAction="#onLeftButtonClick" text="&lt;--" />
-                  <TextField fx:id="m_operationField" prefHeight="25.0" prefWidth="0.0" />
-                  <Button mnemonicParsing="false" onAction="#onRightButtonClick" text="--&gt;" />
-               </children>
-            </VBox>
-            <ImageView fx:id="m_rightImage" fitHeight="103.0" fitWidth="159.0" pickOnBounds="true" />
-         </children>
-      </HBox>
+      <TabPane layoutX="36.0" layoutY="357.0" prefHeight="372.0" prefWidth="391.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Menu">
+               <content>
+                  <VBox prefHeight="145.0" prefWidth="161.0" spacing="15.0">
+                     <children>
+                        <Button fx:id="m_negButton" mnemonicParsing="false" onAction="#onNegativeButtonClick" prefHeight="38.0" prefWidth="180.0" text="Negative" />
+                        <Button fx:id="m_cngButton" mnemonicParsing="false" onAction="#onChangeContrastButtonClick" prefHeight="38.0" prefWidth="180.0" text="Change Contrast" />
+                        <Button fx:id="m_saveButton" mnemonicParsing="false" onAction="#onSaveImageButtonClick" prefHeight="38.0" prefWidth="180.0" text="Save" />
+                     </children>
+                     <padding>
+                        <Insets top="25.0" />
+                     </padding>
+                  </VBox>
+               </content>
+            </Tab>
+          <Tab closable="false" text="Binary Operation">
+               <content>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <HBox alignment="CENTER" fillHeight="false" layoutY="31.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="122.0" prefWidth="391.0" spacing="20.0" style="-fx-background-color: #e1e1e1;">
+                           <children>
+                              <ImageView fx:id="m_leftImage" fitHeight="103.0" fitWidth="159.0" pickOnBounds="true" />
+                              <VBox prefHeight="105.0" prefWidth="35.0" spacing="15.0">
+                                 <children>
+                                    <Button mnemonicParsing="false" onAction="#onLeftButtonClick" text="&lt;--" />
+                                    <TextField fx:id="m_operationField" prefHeight="25.0" prefWidth="0.0" />
+                                    <Button mnemonicParsing="false" onAction="#onRightButtonClick" text="--&gt;" />
+                                 </children>
+                              </VBox>
+                              <ImageView fx:id="m_rightImage" fitHeight="103.0" fitWidth="159.0" pickOnBounds="true" />
+                           </children>
+                        </HBox>
+                        <Button fx:id="m_binButton" layoutX="106.0" layoutY="191.0" mnemonicParsing="false" onAction="#onPerformBinaryButtonClick" prefHeight="38.0" prefWidth="180.0" text="Perform Binary" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="Mask">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="326.0" prefWidth="397.0">
+                     <children>
+                        <GridPane fx:id="m_threeGrid" gridLinesVisible="true" layoutX="102.0" layoutY="37.0" prefHeight="159.0" prefWidth="193.0" style="-fx-background-color: #ffffff;">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <TextField fx:id="m_mat22" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                              <TextField fx:id="m_mat11" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <TextField fx:id="m_mat20" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.rowIndex="2" />
+                              <TextField fx:id="m_mat02" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="2" />
+                              <TextField fx:id="m_mat00" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff; -fx-border-color: #ffffff;" />
+                              <TextField fx:id="m_mat10" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.rowIndex="1" />
+                              <TextField fx:id="m_mat01" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="1" />
+                              <TextField fx:id="m_mat21" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <TextField fx:id="m_mat12" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                           </children>
+                        </GridPane>
+                        <GridPane fx:id="m_fiveGrid" gridLinesVisible="true" layoutX="94.0" layoutY="17.0" prefHeight="178.0" prefWidth="213.0" style="-fx-background-color: #ffffff;" visible="false">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.555572509765625" minWidth="10.0" prefWidth="43.222198486328125" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="51.5555419921875" minWidth="10.0" prefWidth="41.777801513671875" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="49.555572509765625" minWidth="10.0" prefWidth="43.66668701171875" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="61.222259521484375" minWidth="10.0" prefWidth="41.888916015625" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="76.11114501953125" minWidth="10.0" prefWidth="42.88885498046875" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints maxHeight="48.55560302734375" minHeight="10.0" prefHeight="36.33331298828125" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="61.88885498046875" minHeight="10.0" prefHeight="36.4444580078125" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="45.4444580078125" minHeight="10.0" prefHeight="34.66668701171875" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="39.33331298828125" minHeight="10.0" prefHeight="35.11114501953125" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="34.88885498046875" minHeight="10.0" prefHeight="34.88885498046875" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <TextField fx:id="m_mat532" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                              <TextField fx:id="m_mat511" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <TextField fx:id="m_mat520" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.rowIndex="2" />
+                              <TextField fx:id="m_mat502" prefHeight="37.0" prefWidth="40.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="2" />
+                              <TextField fx:id="m_mat500" prefHeight="54.0" prefWidth="61.0" promptText="X" style="-fx-background-color: #ffffff; -fx-border-color: #ffffff;" />
+                              <TextField fx:id="m_mat101" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.rowIndex="1" />
+                              <TextField fx:id="m_mat501" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="1" />
+                              <TextField fx:id="m_mat521" prefHeight="95.0" prefWidth="41.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <TextField fx:id="m_mat512" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                              <TextField fx:id="m_mat503" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="3" />
+                              <TextField fx:id="m_mat504" prefHeight="39.0" prefWidth="58.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="4" />
+                              <TextField fx:id="m_mat513" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                              <TextField fx:id="m_mat514" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                              <TextField fx:id="m_mat523" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                              <TextField fx:id="m_mat524" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                              <TextField fx:id="m_mat530" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.rowIndex="3" />
+                              <TextField fx:id="m_mat531" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <TextField fx:id="m_mat510" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.rowIndex="1" />
+                              <TextField fx:id="m_mat533" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                              <TextField fx:id="m_mat534" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+                              <TextField fx:id="m_mat540" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.rowIndex="4" />
+                              <TextField fx:id="m_mat541" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                              <TextField fx:id="m_mat542" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                              <TextField fx:id="m_mat543" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                              <TextField fx:id="m_mat544" prefHeight="37.0" prefWidth="33.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+                              <TextField fx:id="m_mat522" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                           </children>
+                        </GridPane>
+                        <VBox layoutX="102.0" layoutY="213.0" prefHeight="101.0" prefWidth="192.0" spacing="10.0">
+                           <children>
+                              <Button fx:id="m_switchButton" mnemonicParsing="false" onAction="#onSwitchKernelButtonClick" prefHeight="37.0" prefWidth="192.0" text="Switch to 5x5 kernel" />
+                              <Button fx:id="m_maskButton" mnemonicParsing="false" onAction="#onEnableMaskButtonClick" prefHeight="38.0" prefWidth="195.0" text="Enable Mask" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+        </tabs>
+      </TabPane>
    </children>
 </AnchorPane>
