@@ -19,7 +19,7 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.chart.BarChart;
+import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Button;
@@ -56,7 +56,7 @@ public class MainWindowController implements ITransforms, Initializable{
 	@FXML private ImageView m_leftImage;
 	@FXML private Pane m_emptyPane;
 	@FXML private Label m_lowValue;
-	@FXML private BarChart<String, Integer> m_histogramChart;
+	@FXML private AreaChart<String, Integer> m_histogramChart;
 	@FXML private ListView<Image> m_listView = new ListView<Image>();
 	@FXML private TextField m_mat00, m_mat01, m_mat02, m_mat10, m_mat11, m_mat12, m_mat20, m_mat21, m_mat22;
 	@FXML private TextField m_mat500, m_mat501, m_mat502, m_mat503, m_mat504, m_mat510, m_mat511, m_mat512, m_mat513, m_mat514,
@@ -183,8 +183,8 @@ public class MainWindowController implements ITransforms, Initializable{
       }
 
 	@Override
-	public int[] createHistogram(Image p_image) {
-			int[] histogram = new int[256];
+	public double[] createHistogram(Image p_image) {
+			double[] histogram = new double[256];
 			int height = (int)p_image.getHeight();
 			int width = (int)p_image.getWidth();
 			PixelReader reader = p_image.getPixelReader();
@@ -197,29 +197,34 @@ public class MainWindowController implements ITransforms, Initializable{
 	            	histogram[a]++;
 	            }
 	         }
+	        
+	        //normalize histogram
+	        for (int i = 0 ; i < 256 ; i++){
+	        	histogram[i] = histogram[i]/(height * width);
+	        	
+	        }
 
 			return histogram;
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private void updateBarChartHistogram(int[] p_histogram){
+	private void updateBarChartHistogram(double[] p_histogram){
 		
 		Series<String, Integer> s1 = new XYChart.Series<>();
 
 		for (int i = 0; i<256; i++){
-			Integer value = p_histogram[i];
+			Double value = p_histogram[i];
 			String index = Integer.toString(i);
 			s1.getData().add(new XYChart.Data(index, value));
 		}
 											
-
 		m_histogramChart.getData().clear();
-		m_histogramChart.getData().add(s1);	
+		m_histogramChart.getData().add(s1);
 		
 		updateSlider(p_histogram);
 	}
 	
-	private void updateSlider(int[] p_histogram){
+	private void updateSlider(double[] p_histogram){
 		
 		//update lower value
 		for (int i = 0 ; i < p_histogram.length; i++){
@@ -546,19 +551,28 @@ public class MainWindowController implements ITransforms, Initializable{
 		PixelWriter writer = image.getPixelWriter();
 		
 		
-		if (m_lastMin > m_slider.getLowValue() || m_lastMax < m_slider.getHighValue() )
-		{
+		if (m_lastMin > m_slider.getLowValue() || m_lastMax < m_slider.getHighValue()){
 			
 			for (int i = 0; i< width; i++)
 				for (int j = 0; j< height; j++){
 					Color color = reader.getColor(i, j);
-					double value = (((int)(color.getRed()*255) - m_slider.getLowValue())*255)/(m_slider.getHighValue() - m_slider.getLowValue())/255;
+					double value = (
+							 ((int)(color.getRed()*256) - m_slider.getLowValue())*256)/(m_slider.getHighValue() - m_slider.getLowValue())/256;
 					writer.setColor(i, j, Color.color(value, value, value));
 					
 				}
 			
 		}
+		else if (m_lastMin == m_slider.getLowValue() && m_lastMax == m_slider.getHighValue()){
+			
+			for (int i = 0; i< width; i++)
+				for (int j = 0; j< height; j++){
+					Color color = reader.getColor(i, j);
+					writer.setColor(i, j, color);
+				}
+		}
 		else{
+			
 			for (int i = 0; i< width; i++)
 				for (int j = 0; j< height; j++){
 					Color color = reader.getColor(i, j);

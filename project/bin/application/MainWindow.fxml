@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.AreaChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
@@ -20,7 +20,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="781.0" prefWidth="1309.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainWindowController">
+<AnchorPane prefHeight="741.0" prefWidth="1309.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainWindowController">
    <children>
       <HBox layoutX="36.0" layoutY="14.0" prefHeight="271.0" prefWidth="990.0" spacing="50.0" style="-fx-background-color: #e1e1e1;">
          <children>
@@ -36,17 +36,9 @@
             </ImageView>
          </children>
       </HBox>
-      <ListView fx:id="m_listView" layoutX="1062.0" layoutY="16.0" prefHeight="739.0" prefWidth="213.0" />
-      <BarChart fx:id="m_histogramChart" animated="false" layoutX="441.0" layoutY="345.0" legendVisible="false" prefHeight="400.0" prefWidth="607.0">
-        <xAxis>
-          <CategoryAxis side="BOTTOM" />
-        </xAxis>
-        <yAxis>
-          <NumberAxis side="LEFT" />
-        </yAxis>
-      </BarChart>
-      <Separator layoutX="427.0" layoutY="361.0" orientation="VERTICAL" prefHeight="392.0" prefWidth="14.0" />
-      <Pane fx:id="m_emptyPane" layoutX="483.0" layoutY="738.0" prefHeight="23.0" prefWidth="556.0" />
+      <ListView fx:id="m_listView" layoutX="1066.0" layoutY="16.0" prefHeight="696.0" prefWidth="209.0" />
+      <Separator layoutX="427.0" layoutY="361.0" orientation="VERTICAL" prefHeight="352.0" prefWidth="14.0" />
+      <Pane fx:id="m_emptyPane" layoutX="470.0" layoutY="697.0" prefHeight="23.0" prefWidth="556.0" />
       <Separator layoutX="1046.0" layoutY="47.0" orientation="VERTICAL" prefHeight="677.0" prefWidth="14.0" />
       <Separator layoutX="41.0" layoutY="344.0" prefHeight="0.0" prefWidth="982.0" />
       <TabPane layoutX="36.0" layoutY="357.0" prefHeight="372.0" prefWidth="391.0" tabClosingPolicy="UNAVAILABLE">
@@ -170,5 +162,13 @@
             </Tab>
         </tabs>
       </TabPane>
+      <AreaChart fx:id="m_histogramChart" alternativeRowFillVisible="false" createSymbols="false" horizontalGridLinesVisible="false" horizontalZeroLineVisible="false" layoutX="441.0" layoutY="357.0" legendVisible="false" prefHeight="341.0" prefWidth="596.0" verticalGridLinesVisible="false" verticalZeroLineVisible="false">
+        <xAxis>
+          <CategoryAxis side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis side="LEFT" />
+        </yAxis>
+      </AreaChart>
    </children>
 </AnchorPane>
