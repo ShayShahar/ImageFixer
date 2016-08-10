@@ -556,12 +556,23 @@ public class MainWindowController implements ITransforms, Initializable{
 			for (int i = 0; i< width; i++)
 				for (int j = 0; j< height; j++){
 					Color color = reader.getColor(i, j);
-					double value = (
-							 ((int)(color.getRed()*256) - m_slider.getLowValue())*256)/(m_slider.getHighValue() - m_slider.getLowValue())/256;
+					int range = (int)m_slider.getHighValue() - (int)m_slider.getLowValue();
+					double irc = color.getRed() * 255.0 - m_lastMin;
+					int delta = m_lastMax - m_lastMin;
+					double value = irc * range / delta + (int)m_slider.getLowValue();
+					
+					value = value / 255.0;
+					
+					if (value > 1)
+						value = 1.0;
+					
+					if (value < 0)
+						value = 0;
+							
 					writer.setColor(i, j, Color.color(value, value, value));
 					
 				}
-			
+			 
 		}
 		else if (m_lastMin == m_slider.getLowValue() && m_lastMax == m_slider.getHighValue()){
 			
@@ -590,12 +601,18 @@ public class MainWindowController implements ITransforms, Initializable{
 		return image;
 	}
 	
+	
 	public void onLeftButtonClick(ActionEvent p_event){
 		m_leftImage.setImage(m_fixedView.getImage());
 	}
 	
 	public void onRightButtonClick(ActionEvent p_event){
 		m_rightImage.setImage(m_fixedView.getImage());
+	}
+	
+	public void onCleartResultButtonClick(ActionEvent p_event){
+		m_dataObservable.clear();
+		updateListView(m_dataObservable);
 	}
 	    
 	public void onPerformBinaryButtonClick(ActionEvent p_event){
