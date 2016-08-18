@@ -5,18 +5,15 @@
 }
 
 #m_clearButton {          
-    -fx-background-color: #F44336
+    -fx-background-color: #c2185b
 }
 
 #m_clearButton:hover {
     -fx-background-color: 
-       linear-gradient(fdfdfd 0%, #d9f0fc 49%, #bee6fd 50%, #a7d9f5 100%),
+       linear-gradient(fdfdfd 0%, #d9f0fc 60%, #bee6fd 50%, #a7d9f5 100%),
         #9d4024,
         #EF5350;
 }
 #m_clearButton:pressed {
     -fx-padding: 10 15 11 15;
-}
-#m_clearButton Text {
-    -fx-fill: white;
 }

@@ -64,7 +64,7 @@ public class MainWindowController implements ITransforms, Initializable{
 	@FXML private TextField m_operationField;
 	@FXML private GridPane m_threeGrid;
 	@FXML private GridPane m_fiveGrid;
-	@FXML private Button m_switchButton, m_negButton, m_cngButton, m_saveButton, m_binButton, m_maskButton;
+	@FXML private Button m_switchButton, m_negButton, m_cngButton, m_saveButton, m_binButton, m_maskButton, m_clearButton;
 	private ArrayList<Image> m_dataObservable = new ArrayList<Image>();
 	private int m_lastMin;
 	private int m_lastMax;
@@ -443,6 +443,8 @@ public class MainWindowController implements ITransforms, Initializable{
 		m_mat542.setStyle("-fx-alignment: CENTER;");	
 		m_mat543.setStyle("-fx-alignment: CENTER;");
 		m_mat544.setStyle("-fx-alignment: CENTER;");
+		
+		m_clearButton.setStyle("-fx-text-fill: #ffffff");
 		
 		m_operationField.setStyle("-fx-alignment: CENTER;");
 		m_listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
