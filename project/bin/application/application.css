@@ -38,6 +38,7 @@
 .text-field:focused{
 	-fx-faint-focus-color: transparent;
 	-fx-focus-color: #c2185b;
+    -fx-background-color: #eedfe5;
 }
 
 .list-view:focused{
