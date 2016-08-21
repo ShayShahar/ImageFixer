@@ -50,12 +50,11 @@
         <tabs>
           <Tab text="Menu">
                <content>
-                  <VBox prefHeight="145.0" prefWidth="161.0" spacing="15.0">
+                  <VBox prefHeight="145.0" prefWidth="391.0" spacing="15.0">
                      <children>
                         <Button fx:id="m_negButton" mnemonicParsing="false" onAction="#onNegativeButtonClick" prefHeight="38.0" prefWidth="180.0" text="Negative" />
                         <Button fx:id="m_cngButton" mnemonicParsing="false" onAction="#onChangeContrastButtonClick" prefHeight="38.0" prefWidth="180.0" text="Change Contrast" />
                         <Button fx:id="m_saveButton" mnemonicParsing="false" onAction="#onSaveImageButtonClick" prefHeight="38.0" prefWidth="180.0" text="Save" />
-                        <Pane fx:id="m_emptyPaneGeneral" prefHeight="126.0" prefWidth="391.0" />
                      </children>
                      <padding>
                         <Insets top="25.0" />
@@ -184,5 +183,6 @@
          	<Image url="@../img/logo.png" />
          </image>
          </ImageView>
+      <Button layoutX="19.0" layoutY="707.0" mnemonicParsing="false" text="About" />
    </children>
 </AnchorPane>
