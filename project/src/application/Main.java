@@ -19,6 +19,7 @@ public class Main extends Application {
 			primaryStage.getIcons().add(new Image(url_128.toString()));
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
+			primaryStage.setResizable(false);
 		    primaryStage.setTitle("Image Fixer");
 			primaryStage.show();
 		} catch(Exception e) {

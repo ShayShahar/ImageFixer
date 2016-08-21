@@ -50,6 +50,7 @@
                         <Button fx:id="m_negButton" mnemonicParsing="false" onAction="#onNegativeButtonClick" prefHeight="38.0" prefWidth="180.0" text="Negative" />
                         <Button fx:id="m_cngButton" mnemonicParsing="false" onAction="#onChangeContrastButtonClick" prefHeight="38.0" prefWidth="180.0" text="Change Contrast" />
                         <Button fx:id="m_saveButton" mnemonicParsing="false" onAction="#onSaveImageButtonClick" prefHeight="38.0" prefWidth="180.0" text="Save" />
+                        <Pane fx:id="m_emptyPaneGeneral" prefHeight="126.0" prefWidth="391.0" />
                      </children>
                      <padding>
                         <Insets top="25.0" />
@@ -61,20 +62,23 @@
                <content>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <HBox alignment="CENTER" fillHeight="false" layoutY="31.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="122.0" prefWidth="391.0" spacing="20.0" style="-fx-background-color: #e1e1e1;">
+                        <HBox alignment="CENTER" fillHeight="false" layoutY="31.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="140.0" prefWidth="391.0" spacing="10.0" style="-fx-background-color: #e1e1e1;">
                            <children>
                               <ImageView fx:id="m_leftImage" fitHeight="103.0" fitWidth="159.0" pickOnBounds="true" />
-                              <VBox prefHeight="105.0" prefWidth="35.0" spacing="15.0">
+                              <VBox prefHeight="135.0" prefWidth="39.0" spacing="10.0">
                                  <children>
-                                    <Button mnemonicParsing="false" onAction="#onLeftButtonClick" text="&lt;--" />
-                                    <TextField fx:id="m_operationField" prefHeight="25.0" prefWidth="0.0" />
-                                    <Button mnemonicParsing="false" onAction="#onRightButtonClick" text="--&gt;" />
+                                    <Button fx:id="m_leftButton" mnemonicParsing="false" onAction="#onLeftButtonClick" prefWidth="35.0" text="&lt;--" />
+                                    <Button fx:id="m_addButton" mnemonicParsing="false" onAction="#onAddingButtonClick" prefWidth="35.0" text="+" />
+                                    <Button fx:id="m_subButton" mnemonicParsing="false" onAction="#onSubButtonClick" prefWidth="35.0" text="-" />
+                                    <Button fx:id="m_rightButton" mnemonicParsing="false" onAction="#onRightButtonClick" prefWidth="35.0" text="--&gt;" />
                                  </children>
+                                 <padding>
+                                    <Insets left="2.0" top="2.0" />
+                                 </padding>
                               </VBox>
                               <ImageView fx:id="m_rightImage" fitHeight="103.0" fitWidth="159.0" pickOnBounds="true" />
                            </children>
                         </HBox>
-                        <Button fx:id="m_binButton" layoutX="106.0" layoutY="191.0" mnemonicParsing="false" onAction="#onPerformBinaryButtonClick" prefHeight="38.0" prefWidth="180.0" text="Perform Binary" />
                      </children>
                   </AnchorPane>
                </content>
@@ -83,7 +87,7 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="326.0" prefWidth="397.0">
                      <children>
-                        <GridPane fx:id="m_threeGrid" gridLinesVisible="true" layoutX="102.0" layoutY="37.0" prefHeight="159.0" prefWidth="193.0" style="-fx-background-color: #ffffff;">
+                        <GridPane fx:id="m_threeGrid" gridLinesVisible="true" layoutX="102.0" layoutY="37.0" prefHeight="159.0" prefWidth="193.0">
                           <columnConstraints>
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
@@ -95,15 +99,15 @@
                             <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <TextField fx:id="m_mat22" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                              <TextField fx:id="m_mat11" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                              <TextField fx:id="m_mat20" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.rowIndex="2" />
-                              <TextField fx:id="m_mat02" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="2" />
-                              <TextField fx:id="m_mat00" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff; -fx-border-color: #ffffff;" />
-                              <TextField fx:id="m_mat10" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.rowIndex="1" />
-                              <TextField fx:id="m_mat01" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="1" />
-                              <TextField fx:id="m_mat21" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                              <TextField fx:id="m_mat12" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                              <TextField fx:id="m_mat22" prefHeight="63.0" prefWidth="59.0" style="-fx-background-color: #ffffff;" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                              <TextField fx:id="m_mat11" prefHeight="63.0" prefWidth="59.0" style="-fx-background-color: #ffffff;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <TextField fx:id="m_mat20" prefHeight="63.0" prefWidth="59.0" style="-fx-background-color: #ffffff;" GridPane.rowIndex="2" />
+                              <TextField fx:id="m_mat02" prefHeight="63.0" prefWidth="59.0" style="-fx-background-color: #ffffff;" GridPane.columnIndex="2" />
+                              <TextField fx:id="m_mat00" prefHeight="63.0" prefWidth="59.0" style="-fx-background-color: #ffffff; -fx-border-color: #ffffff;" />
+                              <TextField fx:id="m_mat10" prefHeight="63.0" prefWidth="59.0" style="-fx-background-color: #ffffff;" GridPane.rowIndex="1" />
+                              <TextField fx:id="m_mat01" prefHeight="63.0" prefWidth="59.0" style="-fx-background-color: #ffffff;" GridPane.columnIndex="1" />
+                              <TextField fx:id="m_mat21" prefHeight="63.0" prefWidth="59.0" style="-fx-background-color: #ffffff;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <TextField fx:id="m_mat12" prefHeight="63.0" prefWidth="59.0" style="-fx-background-color: #ffffff;" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                            </children>
                         </GridPane>
                         <GridPane fx:id="m_fiveGrid" gridLinesVisible="true" layoutX="94.0" layoutY="17.0" prefHeight="178.0" prefWidth="213.0" style="-fx-background-color: #ffffff;" visible="false">
@@ -122,31 +126,31 @@
                               <RowConstraints maxHeight="34.88885498046875" minHeight="10.0" prefHeight="34.88885498046875" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
-                              <TextField fx:id="m_mat532" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                              <TextField fx:id="m_mat511" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                              <TextField fx:id="m_mat520" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.rowIndex="2" />
-                              <TextField fx:id="m_mat502" prefHeight="37.0" prefWidth="40.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="2" />
-                              <TextField fx:id="m_mat500" prefHeight="54.0" prefWidth="61.0" promptText="X" style="-fx-background-color: #ffffff; -fx-border-color: #ffffff;" />
-                              <TextField fx:id="m_mat501" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="1" />
-                              <TextField fx:id="m_mat521" prefHeight="95.0" prefWidth="41.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                              <TextField fx:id="m_mat512" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                              <TextField fx:id="m_mat503" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="3" />
-                              <TextField fx:id="m_mat504" prefHeight="39.0" prefWidth="58.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="4" />
-                              <TextField fx:id="m_mat513" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                              <TextField fx:id="m_mat514" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-                              <TextField fx:id="m_mat523" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                              <TextField fx:id="m_mat524" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-                              <TextField fx:id="m_mat530" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.rowIndex="3" />
-                              <TextField fx:id="m_mat531" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                              <TextField fx:id="m_mat510" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.rowIndex="1" />
-                              <TextField fx:id="m_mat533" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-                              <TextField fx:id="m_mat534" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="4" GridPane.rowIndex="3" />
-                              <TextField fx:id="m_mat540" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.rowIndex="4" />
-                              <TextField fx:id="m_mat541" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                              <TextField fx:id="m_mat542" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                              <TextField fx:id="m_mat543" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-                              <TextField fx:id="m_mat544" prefHeight="37.0" prefWidth="33.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="4" GridPane.rowIndex="4" />
-                              <TextField fx:id="m_mat522" prefHeight="63.0" prefWidth="59.0" promptText="X" style="-fx-background-color: #ffffff;" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                              <TextField fx:id="m_mat532" prefHeight="63.0" prefWidth="59.0" style="-fx-background-color: #ffffff;" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                              <TextField fx:id="m_mat511" prefHeight="63.0" prefWidth="59.0" style="-fx-background-color: #ffffff;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <TextField fx:id="m_mat520" prefHeight="63.0" prefWidth="59.0" style="-fx-background-color: #ffffff;" GridPane.rowIndex="2" />
+                              <TextField fx:id="m_mat502" prefHeight="37.0" prefWidth="40.0" style="-fx-background-color: #ffffff;" GridPane.columnIndex="2" />
+                              <TextField fx:id="m_mat500" prefHeight="54.0" prefWidth="61.0" style="-fx-background-color: #ffffff; -fx-border-color: #ffffff;" />
+                              <TextField fx:id="m_mat501" prefHeight="63.0" prefWidth="59.0" style="-fx-background-color: #ffffff;" GridPane.columnIndex="1" />
+                              <TextField fx:id="m_mat521" prefHeight="95.0" prefWidth="41.0" style="-fx-background-color: #ffffff;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <TextField fx:id="m_mat512" prefHeight="63.0" prefWidth="59.0" style="-fx-background-color: #ffffff;" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                              <TextField fx:id="m_mat503" prefHeight="63.0" prefWidth="59.0" style="-fx-background-color: #ffffff;" GridPane.columnIndex="3" />
+                              <TextField fx:id="m_mat504" prefHeight="39.0" prefWidth="58.0" style="-fx-background-color: #ffffff;" GridPane.columnIndex="4" />
+                              <TextField fx:id="m_mat513" prefHeight="63.0" prefWidth="59.0" style="-fx-background-color: #ffffff;" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                              <TextField fx:id="m_mat514" prefHeight="63.0" prefWidth="59.0" style="-fx-background-color: #ffffff;" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                              <TextField fx:id="m_mat523" prefHeight="63.0" prefWidth="59.0" style="-fx-background-color: #ffffff;" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                              <TextField fx:id="m_mat524" prefHeight="63.0" prefWidth="59.0" style="-fx-background-color: #ffffff;" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                              <TextField fx:id="m_mat530" prefHeight="63.0" prefWidth="59.0" style="-fx-background-color: #ffffff;" GridPane.rowIndex="3" />
+                              <TextField fx:id="m_mat531" prefHeight="63.0" prefWidth="59.0" style="-fx-background-color: #ffffff;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <TextField fx:id="m_mat510" prefHeight="63.0" prefWidth="59.0" style="-fx-background-color: #ffffff;" GridPane.rowIndex="1" />
+                              <TextField fx:id="m_mat533" prefHeight="63.0" prefWidth="59.0" style="-fx-background-color: #ffffff;" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                              <TextField fx:id="m_mat534" prefHeight="63.0" prefWidth="59.0" style="-fx-background-color: #ffffff;" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+                              <TextField fx:id="m_mat540" prefHeight="63.0" prefWidth="59.0" style="-fx-background-color: #ffffff;" GridPane.rowIndex="4" />
+                              <TextField fx:id="m_mat541" prefHeight="63.0" prefWidth="59.0" style="-fx-background-color: #ffffff;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                              <TextField fx:id="m_mat542" prefHeight="63.0" prefWidth="59.0" style="-fx-background-color: #ffffff;" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                              <TextField fx:id="m_mat543" prefHeight="63.0" prefWidth="59.0" style="-fx-background-color: #ffffff;" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                              <TextField fx:id="m_mat544" prefHeight="37.0" prefWidth="33.0" style="-fx-background-color: #ffffff;" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+                              <TextField fx:id="m_mat522" prefHeight="63.0" prefWidth="59.0" style="-fx-background-color: #ffffff;" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                            </children>
                         </GridPane>
                         <VBox layoutX="102.0" layoutY="213.0" prefHeight="101.0" prefWidth="192.0" spacing="10.0">

@@ -9,6 +9,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javax.imageio.ImageIO;
+
+import org.controlsfx.control.InfoOverlay;
 import org.controlsfx.control.RangeSlider;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -61,14 +63,14 @@ public class MainWindowController implements ITransforms, Initializable{
 	@FXML private TextField m_mat00, m_mat01, m_mat02, m_mat10, m_mat11, m_mat12, m_mat20, m_mat21, m_mat22;
 	@FXML private TextField m_mat500, m_mat501, m_mat502, m_mat503, m_mat504, m_mat510, m_mat511, m_mat512, m_mat513, m_mat514,
 	m_mat520, m_mat521, m_mat522, m_mat523, m_mat524, m_mat530, m_mat531, m_mat532, m_mat533, m_mat534, m_mat540, m_mat541, m_mat542, m_mat543, m_mat544;
-	@FXML private TextField m_operationField;
 	@FXML private GridPane m_threeGrid;
 	@FXML private GridPane m_fiveGrid;
-	@FXML private Button m_switchButton, m_negButton, m_cngButton, m_saveButton, m_binButton, m_maskButton, m_clearButton;
+	@FXML private Button m_switchButton, m_negButton, m_cngButton, m_saveButton, m_maskButton, m_clearButton, m_subButton, m_addButton;
 	private ArrayList<Image> m_dataObservable = new ArrayList<Image>();
 	private int m_lastMin;
 	private int m_lastMax;
 	private int m_kernelSize;
+	@FXML private Pane m_emptyPaneGeneral;
  
 	
 	public ObservableList<Image> getImages(ArrayList<Image> p_list){
@@ -110,7 +112,6 @@ public class MainWindowController implements ITransforms, Initializable{
     			 m_negButton.setDisable(false);
     			 m_cngButton.setDisable(false);
     			 m_saveButton.setDisable(false);
-    			 m_binButton.setDisable(false);
     			 m_maskButton.setDisable(false);
     				
 			} catch (FileNotFoundException e) {
@@ -406,7 +407,6 @@ public class MainWindowController implements ITransforms, Initializable{
 		m_negButton.setDisable(true);
 		m_cngButton.setDisable(true);
 		m_saveButton.setDisable(true);
-		m_binButton.setDisable(true);
 		m_maskButton.setDisable(true);
 		
 		m_mat00.setStyle("-fx-alignment: CENTER;");
@@ -443,10 +443,10 @@ public class MainWindowController implements ITransforms, Initializable{
 		m_mat542.setStyle("-fx-alignment: CENTER;");	
 		m_mat543.setStyle("-fx-alignment: CENTER;");
 		m_mat544.setStyle("-fx-alignment: CENTER;");
-		
+		 
 		m_clearButton.setStyle("-fx-text-fill: #ffffff");
+
 		
-		m_operationField.setStyle("-fx-alignment: CENTER;");
 		m_listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
 		m_listView.setCellFactory(new Callback<ListView<Image>, 
@@ -617,32 +617,24 @@ public class MainWindowController implements ITransforms, Initializable{
 		updateListView(m_dataObservable);
 	}
 	    
-	public void onPerformBinaryButtonClick(ActionEvent p_event){
+	public void onAddingButtonClick(ActionEvent p_event){
 		
 		if (m_leftImage.getImage() == null || m_rightImage.getImage() == null){
 			displayErrorMessage("Missing Images","Please load images to the stack before try to perform a binary operation.");
+			return;
 		}
-		
-		else{
-			
-			switch (m_operationField.getText()){
-			case "-":{
-				m_fixedView.setImage(imageSubstructor(m_leftImage.getImage(), m_rightImage.getImage()));
-				break;
-			}
-			
-			case "+":{
-				m_fixedView.setImage(imageAdder(m_leftImage.getImage(), m_rightImage.getImage()));
-				break;
-			}
-			
-			default: {
-				displayErrorMessage("Unsupported Operation","The operation that you tried to perform is not supported by this application.");
-				break;
-			}
-		}
-	  }
+		m_fixedView.setImage(imageAdder(m_leftImage.getImage(), m_rightImage.getImage()));
 	}
+	
+	public void onSubButtonClick(ActionEvent p_event){
+		
+		if (m_leftImage.getImage() == null || m_rightImage.getImage() == null){
+			displayErrorMessage("Missing Images","Please load images to the stack before try to perform a binary operation.");
+			return;
+		}
+		m_fixedView.setImage(imageSubstructor(m_leftImage.getImage(), m_rightImage.getImage()));
+	}
+	
 	
 	public WritableImage imageAdder(Image p_left, Image p_right){
 		

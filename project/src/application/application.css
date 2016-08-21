@@ -13,7 +13,58 @@
        linear-gradient(fdfdfd 0%, #d9f0fc 60%, #bee6fd 50%, #a7d9f5 100%),
         #000000,
         #000000;
+    -fx-border-color: #000000;
+        
 }
-#m_clearButton:pressed {
-    -fx-padding: 10 10 11 10;
+
+.range-slider .range-bar{
+	-fx-background-color: #c2185b
 }
+
+.button {
+	    -fx-background-color: #ffffff	
+}
+
+.button:hover{
+	   -fx-background-color: #f1f1f1;
+	   	-fx-faint-focus-color: transpaernt;
+}
+
+.button:pressed{
+	-fx-background-color: #c392a5;
+}
+
+
+.text-field:focused{
+	-fx-faint-focus-color: transparent;
+	-fx-focus-color: #c2185b;
+}
+
+.list-view:focused{
+	-fx-faint-focus-color: transparent;
+	-fx-focus-color: #c2185b;
+	}
+
+.list-cell:selcted{
+	-fx-focus-color: #c2185b;	
+}
+
+.tab{
+	-fx-background-color: #ffffff;
+
+}
+
+.tab:hover{
+	-fx-background-color: #f1f1f1;
+}
+
+
+.tab:selected{
+    -fx-background-color: #f1f1f1;
+	-fx-shadow-highlight-color: #c2185b;
+	-fx-body-color: #c2185b;
+	-fx-inner-border: #c2185b;
+	-fx-outer-border: #c2185b;
+	-fx-faint-focus-color: transparent;
+	-fx-focus-color: transparent;
+	}
