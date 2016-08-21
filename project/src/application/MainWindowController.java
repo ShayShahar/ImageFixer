@@ -32,6 +32,7 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelReader;
@@ -40,6 +41,7 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.util.Callback;
@@ -70,7 +72,7 @@ public class MainWindowController implements ITransforms, Initializable{
 	private int m_lastMin;
 	private int m_lastMax;
 	private int m_kernelSize;
-	@FXML private Pane m_emptyPaneGeneral;
+	@FXML private StackPane m_leftPane, m_rightPane;
  
 	
 	public ObservableList<Image> getImages(ArrayList<Image> p_list){
@@ -113,7 +115,9 @@ public class MainWindowController implements ITransforms, Initializable{
     			 m_cngButton.setDisable(false);
     			 m_saveButton.setDisable(false);
     			 m_maskButton.setDisable(false);
-    				
+    			 m_leftPane.setStyle("-fx-padding: 2;-fx-background-color: #d1d1d1; -fx-background-radius: 2;");
+    			 m_rightPane.setStyle("-fx-padding: 2;-fx-background-color: #d1d1d1; -fx-background-radius: 2;");
+
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}

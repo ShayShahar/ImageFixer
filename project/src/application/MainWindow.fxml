@@ -18,22 +18,27 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane prefHeight="741.0" prefWidth="1287.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainWindowController">
    <children>
       <HBox layoutX="23.0" layoutY="14.0" prefHeight="271.0" prefWidth="990.0" spacing="50.0" style="-fx-background-color: #e1e1e1;">
          <children>
-            <ImageView fx:id="m_originalView" fitHeight="320.0" fitWidth="474.0" onMouseClicked="#onLoadImageClick" pickOnBounds="true">
-               <image>
-                  <Image url="@../img/imagehere.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="m_fixedView" fitHeight="320.0" fitWidth="475.0" pickOnBounds="true">
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin>
-            </ImageView>
+            <StackPane fx:id="m_leftPane" prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <ImageView fx:id="m_originalView" fitHeight="320.0" fitWidth="474.0" onMouseClicked="#onLoadImageClick" pickOnBounds="true">
+                     <image>
+                        <Image url="@../img/imagehere.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </StackPane>
+            <StackPane fx:id="m_rightPane" prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <ImageView fx:id="m_fixedView" fitHeight="320.0" fitWidth="475.0" pickOnBounds="true" />
+               </children>
+            </StackPane>
          </children>
       </HBox>
       <ListView fx:id="m_listView" layoutX="1057.0" layoutY="16.0" prefHeight="591.0" prefWidth="209.0" />
