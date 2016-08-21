@@ -4,6 +4,10 @@
 	-fx-alignment: center ;
 }
 
+#m_mainPane {
+  -fx-border-color: #c392a5;
+}
+
 #m_clearButton {          
     -fx-background-color: #c2185b
 }

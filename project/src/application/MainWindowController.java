@@ -11,8 +11,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javax.imageio.ImageIO;
-
-import org.controlsfx.control.InfoOverlay;
 import org.controlsfx.control.RangeSlider;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -21,6 +19,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.AreaChart;
@@ -32,15 +31,16 @@ import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -76,7 +76,12 @@ public class MainWindowController implements ITransforms, Initializable{
 	private int m_kernelSize;
 	@FXML private StackPane m_leftPane, m_rightPane;
 	private boolean m_allowLoadFromImage = true;
- 
+	@FXML private AnchorPane m_mainPane;
+	@FXML private MenuBar m_menuBar;
+	@FXML private Label m_lable22, m_lable221;
+
+	private static double xOffset = 0;
+	private static double yOffset = 0;
 	
 	public ObservableList<Image> getImages(ArrayList<Image> p_list){
 		
@@ -118,34 +123,47 @@ public class MainWindowController implements ITransforms, Initializable{
 	    			 m_negButton.setDisable(false);
 	    			 m_cngButton.setDisable(false);
 	    			 m_maskButton.setDisable(false);
-	    			 m_leftPane.setStyle("-fx-padding: 2;-fx-background-color: #d1d1d1; -fx-background-radius: 2;");
-	    			 m_rightPane.setStyle("-fx-padding: 2;-fx-background-color: #d1d1d1; -fx-background-radius: 2;");
+
+	    	    	 m_allowLoadFromImage = false;
 
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
 				}
 	    	 }
 	    	 
-	    	 m_allowLoadFromImage = false;
 		}
 
 			 	
 	}
 	
-	 public void onMinimizeButtonClick(ActionEvent p_event)
-	 {
+	public void onMinimizeButtonClick(ActionEvent p_event){
 		Stage stage = (Stage) m_threeGrid.getScene().getWindow();
 		stage.setIconified(true);
-	 }
+	}
+	
+	 
+	public void onClearButtonMenu(ActionEvent p_event){
+		m_dataObservable.clear();
+		updateListView(m_dataObservable);
+		m_histogramChart.getData().clear();
+		m_fixedView.setImage(null);
+		URL url = MainWindowController.class.getResource("/img/imagehere.png");
+		m_originalView.setImage(new Image(url.toString()));
+		m_allowLoadFromImage = true;
+		m_negButton.setDisable(true);
+		m_cngButton.setDisable(true);
+		m_maskButton.setDisable(true);
+		m_leftImage.setImage(null);
+		m_rightImage.setImage(null);
+	}
 	
 	public void onBasicTransformationLink(ActionEvent p_event){
 		 try {
 			java.awt.Desktop.getDesktop().browse(new URI("https://en.wikipedia.org/wiki/Kernel_(image_processing)"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 
@@ -171,8 +189,6 @@ public class MainWindowController implements ITransforms, Initializable{
     			 m_negButton.setDisable(false);
     			 m_cngButton.setDisable(false);
     			 m_maskButton.setDisable(false);
-    			 m_leftPane.setStyle("-fx-padding: 2;-fx-background-color: #d1d1d1; -fx-background-radius: 2;");
-    			 m_rightPane.setStyle("-fx-padding: 2;-fx-background-color: #d1d1d1; -fx-background-radius: 2;");
 
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
@@ -317,7 +333,9 @@ public class MainWindowController implements ITransforms, Initializable{
 				break;
 			}
 		}
-		
+    	m_lable221.setText(Integer.toString((int)m_slider.getHighValue()));
+    	m_lable22.setText(Integer.toString((int)m_slider.getLowValue()));
+
 	}
 	
 	public void onEnableMaskButtonClick(ActionEvent event){
@@ -472,10 +490,21 @@ public class MainWindowController implements ITransforms, Initializable{
 		m_slider.setShowTickMarks(true);
 		m_slider.setShowTickLabels(true);
 		m_slider.setBlockIncrement(10);
-		m_slider.setMinWidth(555);
+		m_slider.setMinWidth(535);
+		
+		
+		m_slider.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+            	m_lable22.setText(Integer.toString((int)m_slider.getLowValue()));
+            	m_lable221.setText(Integer.toString((int)m_slider.getHighValue()));
+
+            }
+        });
 		
 		m_emptyPane.getChildren().add(m_slider);
 		m_kernelSize = 3;
+		
 		
 		m_negButton.setDisable(true);
 		m_cngButton.setDisable(true);
@@ -517,6 +546,25 @@ public class MainWindowController implements ITransforms, Initializable{
 		m_mat544.setStyle("-fx-alignment: CENTER;");
 		 
 		m_clearButton.setStyle("-fx-text-fill: #ffffff");
+		
+		m_menuBar.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+        		Stage stage = (Stage) m_threeGrid.getScene().getWindow();
+                xOffset = stage.getX() - event.getScreenX();
+                yOffset = stage.getY() - event.getScreenY();
+            }
+        });
+		
+		m_menuBar.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+        		Stage stage = (Stage) m_threeGrid.getScene().getWindow();
+
+        		stage.setX(event.getScreenX() + xOffset);
+        		stage.setY(event.getScreenY() + yOffset);
+            }
+        });
 
 		
 		m_listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
