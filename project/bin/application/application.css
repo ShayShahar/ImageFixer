@@ -46,7 +46,7 @@
 	-fx-focus-color: #c2185b;
 	}
 
-.list-cell:selcted{
+.list-cell:selected{
 	-fx-focus-color: #c2185b;	
 }
 
@@ -68,4 +68,16 @@
 	-fx-outer-border: #c2185b;
 	-fx-faint-focus-color: transparent;
 	-fx-focus-color: transparent;
-	}
+}
+
+.menu:hover{
+	 -fx-background-color: #c392a5;
+
+}
+
+.menu-item:hover{
+	 -fx-background-color: #c392a5;
+	
+}
+
+

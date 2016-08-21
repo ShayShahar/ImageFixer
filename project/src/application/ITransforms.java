@@ -1,5 +1,7 @@
 package application;
 
+import java.io.File;
+
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 
@@ -15,7 +17,7 @@ public interface ITransforms {
 	/**
 	 * Save the fixed image to any location.
 	 */
-	public void saveImage();
+	public void saveImage(File p_file);
 	
 	/**
 	 * Creates a histogram and displays it on the graph

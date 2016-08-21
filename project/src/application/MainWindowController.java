@@ -5,6 +5,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -44,6 +46,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.Pair;
 
@@ -53,7 +56,6 @@ public class MainWindowController implements ITransforms, Initializable{
 	private Image m_original = null;
 	private WritableImage m_fixed = null;
 	private RangeSlider m_slider;
-	private File file = new File("image.png");
 	@FXML private ImageView m_originalView;
 	@FXML private ImageView m_fixedView;
 	@FXML private ImageView m_rightImage;
@@ -67,12 +69,13 @@ public class MainWindowController implements ITransforms, Initializable{
 	m_mat520, m_mat521, m_mat522, m_mat523, m_mat524, m_mat530, m_mat531, m_mat532, m_mat533, m_mat534, m_mat540, m_mat541, m_mat542, m_mat543, m_mat544;
 	@FXML private GridPane m_threeGrid;
 	@FXML private GridPane m_fiveGrid;
-	@FXML private Button m_switchButton, m_negButton, m_cngButton, m_saveButton, m_maskButton, m_clearButton, m_subButton, m_addButton;
+	@FXML private Button m_switchButton, m_negButton, m_cngButton, m_maskButton, m_clearButton, m_subButton, m_addButton;
 	private ArrayList<Image> m_dataObservable = new ArrayList<Image>();
 	private int m_lastMin;
 	private int m_lastMax;
 	private int m_kernelSize;
 	@FXML private StackPane m_leftPane, m_rightPane;
+	private boolean m_allowLoadFromImage = true;
  
 	
 	public ObservableList<Image> getImages(ArrayList<Image> p_list){
@@ -97,6 +100,60 @@ public class MainWindowController implements ITransforms, Initializable{
 
 	public void onLoadImageClick(MouseEvent event){
 		
+		if (m_allowLoadFromImage){
+			InputStream inputStream = null;
+
+			configureFileChooser(m_chooser);
+			m_chooser.setTitle("Save Image");
+			
+			File file = m_chooser.showOpenDialog(null);
+				
+	    	 if (file != null) {
+
+	    		 try {
+	    			 inputStream = new FileInputStream(file.getPath());  // get the file path
+	    			 m_original = new Image(inputStream);
+	    			 m_originalView.setImage(m_original);
+	    			 m_fixedView.setImage(greyScaleImage(m_original));
+	    			 m_negButton.setDisable(false);
+	    			 m_cngButton.setDisable(false);
+	    			 m_maskButton.setDisable(false);
+	    			 m_leftPane.setStyle("-fx-padding: 2;-fx-background-color: #d1d1d1; -fx-background-radius: 2;");
+	    			 m_rightPane.setStyle("-fx-padding: 2;-fx-background-color: #d1d1d1; -fx-background-radius: 2;");
+
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
+	    	 }
+	    	 
+	    	 m_allowLoadFromImage = false;
+		}
+
+			 	
+	}
+	
+	 public void onMinimizeButtonClick(ActionEvent p_event)
+	 {
+		Stage stage = (Stage) m_threeGrid.getScene().getWindow();
+		stage.setIconified(true);
+	 }
+	
+	public void onBasicTransformationLink(ActionEvent p_event){
+		 try {
+			java.awt.Desktop.getDesktop().browse(new URI("https://en.wikipedia.org/wiki/Kernel_(image_processing)"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	
+	}
+		
+	public void onLoadImageMenuClick(ActionEvent p_event){
+		
 		InputStream inputStream = null;
 
 		configureFileChooser(m_chooser);
@@ -113,7 +170,6 @@ public class MainWindowController implements ITransforms, Initializable{
     			 m_fixedView.setImage(greyScaleImage(m_original));
     			 m_negButton.setDisable(false);
     			 m_cngButton.setDisable(false);
-    			 m_saveButton.setDisable(false);
     			 m_maskButton.setDisable(false);
     			 m_leftPane.setStyle("-fx-padding: 2;-fx-background-color: #d1d1d1; -fx-background-radius: 2;");
     			 m_rightPane.setStyle("-fx-padding: 2;-fx-background-color: #d1d1d1; -fx-background-radius: 2;");
@@ -124,7 +180,7 @@ public class MainWindowController implements ITransforms, Initializable{
     	 }
 			 	
 	}
-		
+	
 	 public void onGreyscaleButtonClick(ActionEvent p_event){
 		 m_fixedView.setImage(greyScaleImage(m_original));
 	 }
@@ -159,24 +215,37 @@ public class MainWindowController implements ITransforms, Initializable{
 		updateBarChartHistogram(createHistogram(m_fixed));
         return image;
 	}
-	
-	public void onSaveImageButtonClick(ActionEvent p_event){
-		saveImage();
-	}
+
 	@Override
-	public void saveImage() {
+	public void saveImage(File p_file) {
 		
         try {
-			ImageIO.write(SwingFXUtils.fromFXImage(m_fixed, null), "png", file);
+			ImageIO.write(SwingFXUtils.fromFXImage(m_fixed, null), "png", p_file);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
 	}
 
+	public void onSaveImageButtonClick(ActionEvent p_event){
+		FileChooser fileChooser = new FileChooser();
+		
+		//Set extension filter
+		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Image files (*.png)", "*.png");
+		fileChooser.getExtensionFilters().add(extFilter);
+		
+		//Show save file dialog
+		File file = fileChooser.showSaveDialog(new Stage());
+		
+		if(file != null){
+			saveImage(file);
+		}
+		
+	}
+	
 	 private  void configureFileChooser( final FileChooser p_chooser){   
 		  
-		 p_chooser.setTitle("View Pictures");
+		 p_chooser.setTitle("Load Image");
 		 p_chooser.setInitialDirectory(
              new File(System.getProperty("user.home"))
          );                 
@@ -410,7 +479,6 @@ public class MainWindowController implements ITransforms, Initializable{
 		
 		m_negButton.setDisable(true);
 		m_cngButton.setDisable(true);
-		m_saveButton.setDisable(true);
 		m_maskButton.setDisable(true);
 		
 		m_mat00.setStyle("-fx-alignment: CENTER;");
@@ -724,5 +792,9 @@ public class MainWindowController implements ITransforms, Initializable{
 			m_kernelSize = 3;
 			m_switchButton.setText("Switch to 5x5 kernel");
 		}
+	}
+	
+	public void onExitButtonClick(ActionEvent p_event){
+		System.exit(1);
 	}
 }
