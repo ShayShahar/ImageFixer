@@ -89,7 +89,7 @@
 
 
 .tab:selected{
-    -fx-background-color: #f1f1f1;
+    -fx-background-color: #eedfe5;
 	-fx-shadow-highlight-color: #c2185b;
 	-fx-body-color: #c2185b;
 	-fx-inner-border: #c2185b;
