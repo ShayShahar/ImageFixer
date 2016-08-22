@@ -567,8 +567,6 @@ public class MainWindowController implements ITransforms, Initializable{
         });
 
 		
-		m_listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-
 		m_listView.setCellFactory(new Callback<ListView<Image>, 
 	              ListCell<Image>>() {
 	                  @Override 
@@ -590,8 +588,8 @@ public class MainWindowController implements ITransforms, Initializable{
 					    	try{
 								m_fixed = new WritableImage(newValue.getPixelReader(),(int)newValue.getWidth(),(int)newValue.getHeight());
 								m_fixedView.setImage(m_fixed);
-								
 								m_listView.getSelectionModel().clearSelection();
+								updateBarChartHistogram(createHistogram(m_fixed));
 					    	}catch(Exception e){
 					    		
 					    	}
