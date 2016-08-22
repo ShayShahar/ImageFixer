@@ -221,13 +221,13 @@
       </MenuBar>
       <Label fx:id="m_lable22" layoutX="454.0" layoutY="731.0" text="0" />
       <Label fx:id="m_lable221" layoutX="1019.0" layoutY="731.0" text="255" />
-      <Button fx:id="m_cancelButton" layoutX="1264.0" mnemonicParsing="false" onAction="#onExitButtonClick" text="X" textOverrun="CLIP">
+      <Button fx:id="m_cancelButton" layoutX="1264.0" mnemonicParsing="false" onAction="#onExitButtonClick" prefHeight="25.0" text="X" textOverrun="CLIP">
          <font>
-            <Font name="System Bold" size="12.0" />
+            <Font name="Calibri Bold" size="12.0" />
          </font></Button>
-      <Button fx:id="m_minButton" layoutX="1242.0" mnemonicParsing="false" onAction="#onMinimizeButtonClick" text="-">
+      <Button fx:id="m_minButton" layoutX="1239.0" mnemonicParsing="false" onAction="#onMinimizeButtonClick" prefHeight="25.0" prefWidth="23.0" text="-">
          <font>
-            <Font name="System Bold" size="12.0" />
+            <Font name="Calibri Light Italic" size="12.0" />
          </font></Button>
    </children>
 </AnchorPane>
