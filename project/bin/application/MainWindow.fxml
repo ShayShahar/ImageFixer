@@ -25,6 +25,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="m_mainPane" prefHeight="741.0" prefWidth="1287.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainWindowController">
    <children>
@@ -220,5 +221,13 @@
       </MenuBar>
       <Label fx:id="m_lable22" layoutX="454.0" layoutY="731.0" text="0" />
       <Label fx:id="m_lable221" layoutX="1019.0" layoutY="731.0" text="255" />
+      <Button fx:id="m_cancelButton" layoutX="1264.0" mnemonicParsing="false" onAction="#onExitButtonClick" text="X" textOverrun="CLIP">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+      <Button fx:id="m_minButton" layoutX="1242.0" mnemonicParsing="false" onAction="#onMinimizeButtonClick" text="-">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
    </children>
 </AnchorPane>

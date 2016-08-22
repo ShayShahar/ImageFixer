@@ -8,6 +8,27 @@
   -fx-border-color: #c392a5;
 }
 
+#m_cancelButton {          
+    -fx-background-color: transparent
+}
+
+#m_cancelButton:hover {          
+    -fx-background-color: #c392a5;
+     -fx-text-fill: #ffffff;
+}
+
+
+#m_minButton {          
+    -fx-background-color: transparent
+}
+
+#m_minButton:hover {          
+    -fx-background-color: #c392a5;
+     -fx-text-fill: #ffffff;
+}
+
+
+
 #m_clearButton {          
     -fx-background-color: #c2185b
 }
@@ -26,16 +47,19 @@
 }
 
 .button {
-	    -fx-background-color: #ffffff	
+	    -fx-background-color: #e1e1e1	
 }
 
 .button:hover{
-	   -fx-background-color: #f1f1f1;
+	   -fx-background-color: #c392a5;
 	   	-fx-faint-focus-color: transpaernt;
+	   	     -fx-text-fill: #ffffff;
+	   	
 }
 
 .button:pressed{
-	-fx-background-color: #c392a5;
+	-fx-background-color: #c2185b;
+	-fx-text-fill: #ffffff;
 }
 
 
